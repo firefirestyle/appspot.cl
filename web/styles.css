@@ -3,7 +3,23 @@ body {
 }
 
 .fire-navigation {
+  position: fixed;
   background-color: #ffeeee;
+  color: white;
+  width: 100%;
+  height: 50px;
+  top: 0px;
+  right: 0px;
+}
+
+.fire-content {
+  color: white;
+  width: 100%;
+  height: 1000px;
+}
+
+.fire-footer {
+  background-color: #550000;
   color: white;
   width: 100%;
   height: 100px;
