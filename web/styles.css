@@ -12,6 +12,11 @@ body {
   right: 0px;
 }
 
+.fire-navigation-right {
+  position: fixed;
+  right: 0px;
+}
+
 .fire-content {
   color: white;
   width: 100%;
@@ -23,4 +28,33 @@ body {
   color: white;
   width: 100%;
   height: 100px;
+}
+
+.fire-naviitem {
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  flex-wrap:  wrap;
+  color:black;
+  float: left;
+  margin: 0px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #ffeeee;
+}
+.fire-naviitem-checked {
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  flex-wrap:  wrap;
+  color:black;
+  float: left;
+  margin: 0px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #ffeeee;
+}
+
+.fire-naviitem:hover {
+  background-color: #8888ff;
 }
