@@ -6,6 +6,52 @@ void main() {
   c.bake(html.document.body);
 }
 
+class Config {
+
+}
+
+class Page {
+
+}
+/*
+class Location {
+  String hash = "";
+
+//  factory Location() {
+//    return new Location.url(html.window.location.href);
+//  }
+
+  Location.url(String url) {
+
+  }
+
+  static String address(String hash) {
+    if (hash == null) {
+      return "";
+    }
+    int index = hash.indexOf("?");
+    if (index < 0) {
+      return hash;
+    }
+    return hash.substring(0, index);
+  }
+
+  static Map<String, String> prop(String hash) {
+    if (hash == null) {
+      return {};
+    }
+    Map<String, String> prop = {};
+    if (hash.indexOf("?") > 0) {
+      prop = Uri.splitQueryString(hash.substring(hash.indexOf("?") + 1));
+    }
+    return prop;
+  }
+
+  static String getFAddr() {
+    return html.window.location.href.replaceFirst(new RegExp(r"""[#\?].*"""), "");
+  }
+}*/
+
 class ContentBuilder {
   String navigatorId = "fire-navigation";
   String navigatorRightId = "fire-navigation-right";
