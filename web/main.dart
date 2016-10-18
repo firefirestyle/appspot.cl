@@ -22,6 +22,7 @@ void main() {
   //
   loc.PageManager pageManager = new loc.PageManager();
   pageManager.pages.add(new MePage());
+  pageManager.pages.add(new TwitterPage());
   pageManager.doLocation();
 
   var l = new loc.Location();
@@ -33,10 +34,19 @@ class LoginNBox {
   String callbackopt = "cb";
   String makeLoginTwitterUrl() {
     var l = new loc.Location();
-    return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/twitter")}"""; //"${l.baseAddr}"+"/"
+    return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/#/Twitter")}""";
   }
 }
 
+class TwitterPage extends loc.Page {
+  bool updateLocation(loc.PageManager manager, loc.Location location) {
+    if (location.hash.startsWith("#/Twitter")) {
+      print(".......>Twitter");
+      manager.assignLocation(location.baseAddr);
+    }
+    return true;
+  }
+}
 
 class MePage extends loc.Page {
   String rootID;
