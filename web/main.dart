@@ -11,6 +11,21 @@ LoginNBox GetLoginNBox() {
   return new LoginNBox();
 }
 
+class PageManager {
+  static String title = "title";
+  static String message = "message";
+  static String backurl = "backurl";
+  static PageManager instance = new PageManager();
+
+  void jumpToErrorPage(String title, String message, String backurl) {
+    loc.Location l = new loc.Location();
+    html.window.location.assign(l.baseAddr+"/#/Error?title=${Uri.encodeComponent(title)}&message=${Uri.encodeComponent(message)}&backurl=${Uri.encodeComponent(backurl)}");
+  }
+  List<String> getErrorPageRequest(loc.Location location){
+    return [location.getValueAsString(title, ""),location.getValueAsString(message, ""),location.getValueAsString(backurl, "")];
+  }
+}
+
 void main() {
   print("hello client");
   ContentBuilder c = new ContentBuilder()..addItem("ME", "#/Me")..addItem("Home", "#/Home");
@@ -43,6 +58,7 @@ class TwitterPage extends loc.Page {
       print(".......>Twitter ${location.values}");
       if (location.getValueAsString("error", "") != "" || location.getValueAsString("errcode", "") != "") {
         // Failed to oauth
+        PageManager.instance.jumpToErrorPage("Failed to login", location.getValueAsString("error", "")+":"+location.getValueAsString("errcode", ""), location.baseAddr);
       } else {
         Cookie.instance.accessToken = location.getValueAsString("token", "");
         Cookie.instance.userName = location.getValueAsString("userName", "");
@@ -61,10 +77,15 @@ class ErrorPage extends loc.Page {
   ErrorPage({this.rootID: "fire-errorpage", this.isExclusive: true}) {}
   bool updateLocation(loc.PageManager manager, loc.Location location) {
     if (location.hash.startsWith("#/Error")) {
+      var requestProp = PageManager.instance.getErrorPageRequest(location);
       var rootElm = html.document.body.querySelector("#${rootID}");
       rootElm.style.display = "block";
       rootElm.children.clear();
-      rootElm.appendHtml(["""<div style="color:#000000;">error</div>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+      rootElm.appendHtml([
+        """<div style="color:#000000;">${requestProp[0]}</div>""",//
+        """<div style="color:#000000;">${requestProp[1]}</div>""",//
+        """<a style="color:#000000;" href="${requestProp[2]}">back</a>""",//
+    ].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
     } else {
       var rootElm = html.document.body.querySelector("#${rootID}");
       rootElm.style.display = "none";
