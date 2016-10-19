@@ -1,14 +1,11 @@
 import 'dart:html' as html;
 import 'dart:async';
 import 'package:dart.html.location/location.dart' as loc;
-import 'package:dart.httprequest/request.dart' as req;
-import 'package:dart.httprequest/request_ver_html.dart' as req;
+import 'config.dart';
+//import 'package:dart.httprequest/request.dart' as req;
+//import 'package:dart.httprequest/request_ver_html.dart' as req;
 
 //String configBackendAddr = "";
-String GetBackAddr() {
-  //return (new loc.Location()).baseAddr;
-  return "http://localhost:8080";
-}
 
 LoginNBox GetLoginNBox() {
   return new LoginNBox();
@@ -23,6 +20,7 @@ void main() {
   loc.PageManager pageManager = new loc.PageManager();
   pageManager.pages.add(new MePage());
   pageManager.pages.add(new TwitterPage());
+  pageManager.pages.add(new ErrorPage());
   pageManager.doLocation();
 
   var l = new loc.Location();
@@ -30,6 +28,7 @@ void main() {
 }
 
 class Config {}
+
 class LoginNBox {
   String callbackopt = "cb";
   String makeLoginTwitterUrl() {
@@ -41,8 +40,34 @@ class LoginNBox {
 class TwitterPage extends loc.Page {
   bool updateLocation(loc.PageManager manager, loc.Location location) {
     if (location.hash.startsWith("#/Twitter")) {
-      print(".......>Twitter");
-      manager.assignLocation(location.baseAddr);
+      print(".......>Twitter ${location.values}");
+      if (location.getValueAsString("error", "") != "" || location.getValueAsString("errcode", "") != "") {
+        // Failed to oauth
+      } else {
+        Cookie.instance.accessToken = location.getValueAsString("token", "");
+        Cookie.instance.userName = location.getValueAsString("userName", "");
+        Cookie.instance.isMaster = location.getValueAsInt("isMaster", 0);
+        manager.assignLocation(location.baseAddr);
+      }
+    }
+    return true;
+  }
+}
+
+class ErrorPage extends loc.Page {
+  String rootID;
+  bool isExclusive;
+
+  ErrorPage({this.rootID: "fire-errorpage", this.isExclusive: true}) {}
+  bool updateLocation(loc.PageManager manager, loc.Location location) {
+    if (location.hash.startsWith("#/Error")) {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "block";
+      rootElm.children.clear();
+      rootElm.appendHtml(["""<div style="color:#000000;">error</div>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    } else {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "none";
     }
     return true;
   }
@@ -65,6 +90,9 @@ class MePage extends loc.Page {
           .whenComplete(() {
             manager.doEvent(loc.PageManagerEvent.stopLoading);
           });
+    } else {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "none";
     }
     return true;
   }
@@ -77,9 +105,7 @@ class MePage extends loc.Page {
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
-    rootElm.appendHtml([
-      """<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl()}"> twitter login </a>""",
-    ].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    rootElm.appendHtml(["""<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl()}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 }
 
@@ -107,12 +133,12 @@ class ContentBuilder extends loc.Page {
   }
 
   bool updateEvent(loc.PageManager manager, loc.PageManagerEvent event) {
-    if(event == loc.PageManagerEvent.startLoading) {
-      for(var key in elms.keys) {
+    if (event == loc.PageManagerEvent.startLoading) {
+      for (var key in elms.keys) {
         elms[key].style.display = "none";
       }
-    } else if(event == loc.PageManagerEvent.stopLoading) {
-      for(var key in elms.keys) {
+    } else if (event == loc.PageManagerEvent.stopLoading) {
+      for (var key in elms.keys) {
         elms[key].style.display = "block";
       }
     }
@@ -124,8 +150,8 @@ class ContentBuilder extends loc.Page {
     //  var e = elm[html.window.location.hash];
   }
 
-  bake(html.Element rootElm,{needMakeRoot:false}) {
-    if(needMakeRoot) {
+  bake(html.Element rootElm, {needMakeRoot: false}) {
+    if (needMakeRoot) {
       rootElm.appendHtml(["""<div id=${navigatorId} class="${navigatorId}"> </div>""", """<div id=${contentId} class="${contentId}"> </div>""", """<div id=${footerId} class="${footerId}"> </div>""",].join("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
     }
     //
