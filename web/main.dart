@@ -23,6 +23,10 @@ LoginNBox GetLoginNBox() {
   return new LoginNBox();
 }
 
+UserNBox GetUserNBox() {
+  return new UserNBox();
+}
+
 class UserParts {
   appendUser(html.Element containerElm) {
     ;
@@ -65,6 +69,7 @@ void main() {
   pageManager.pages.add(new MePage());
   pageManager.pages.add(new TwitterPage());
   pageManager.pages.add(new ErrorPage());
+  pageManager.pages.add(new UserPage());
   pageManager.doLocation();
 
   var l = new loc.Location();
@@ -96,7 +101,7 @@ class UserInfoProp {
   String get privateInfo => prop.getString("PrivateInfo", "");
 }
 
-class UserBBox {
+class UserNBox {
   Future<UserInfoProp> requestUserInfo(String userName) async {
     var builder = new req.Html5NetBuilder();
     var requester = await builder.createRequester();
