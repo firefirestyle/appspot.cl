@@ -1,21 +1,30 @@
 library firestylesite;
+
 import 'dart:html' as html;
 import 'dart:async';
 import 'package:dart.html.location/location.dart' as loc;
 import 'config.dart';
+import 'package:dart.httprequest/request.dart' as req;
+import 'package:dart.httprequest/request_ver_html.dart' as req;
+//
+import 'dart:convert' as conv;
 //
 part 'page/twitter.dart';
 part 'page/user.dart';
 part 'page/error.dart';
 part 'page/me.dart';
 part 'page/toolbar.dart';
-//import 'package:dart.httprequest/request.dart' as req;
-//import 'package:dart.httprequest/request_ver_html.dart' as req;
 
 //String configBackendAddr = "";
 
 LoginNBox GetLoginNBox() {
   return new LoginNBox();
+}
+
+class UserParts {
+  appendUser(html.Element containerElm) {
+    ;
+  }
 }
 
 class PageManager {
@@ -27,22 +36,21 @@ class PageManager {
 
   void jumpToUserPage(String userName) {
     loc.Location l = new loc.Location();
-    html.window.location.assign(l.baseAddr+"/#/User?${userNameId}=${Uri.encodeComponent(userName)}");
+    html.window.location.assign(l.baseAddr + "/#/User?${userNameId}=${Uri.encodeComponent(userName)}");
   }
 
   void jumpToErrorPage(String title, String message, String backurl) {
     loc.Location l = new loc.Location();
-    html.window.location.assign(l.baseAddr+"/#/Error?title=${Uri.encodeComponent(title)}&message=${Uri.encodeComponent(message)}&backurl=${Uri.encodeComponent(backurl)}");
+    html.window.location.assign(l.baseAddr + "/#/Error?title=${Uri.encodeComponent(title)}&message=${Uri.encodeComponent(message)}&backurl=${Uri.encodeComponent(backurl)}");
   }
 
-  List<String> getErrorPageRequest(loc.Location location){
-    return [location.getValueAsString(title, ""),location.getValueAsString(message, ""),location.getValueAsString(backurl, "")];
+  List<String> getErrorPageRequest(loc.Location location) {
+    return [location.getValueAsString(title, ""), location.getValueAsString(message, ""), location.getValueAsString(backurl, "")];
   }
 
-  List<String> getUserNamePageRequest(loc.Location location){
+  List<String> getUserNamePageRequest(loc.Location location) {
     return [location.getValueAsString(userNameId, "")];
   }
-
 }
 
 void main() {
@@ -68,5 +76,28 @@ class LoginNBox {
   String makeLoginTwitterUrl() {
     var l = new loc.Location();
     return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/#/Twitter")}""";
+  }
+}
+
+class UserBBox {
+  Future<String> requestUserInfo(String userName) async {
+    var builder = new req.Html5NetBuilder();
+    var requester = await builder.createRequester();
+    var url = "${GetBackAddr()}/api/v1/user/get?userName=${Uri.encodeComponent(userName)}";
+    req.Response response = await requester.request(req.Requester.TYPE_GET, url);
+    if (response.status != 200) {
+      throw new Exception("");
+    }
+
+    var obj = conv.JSON.decode(conv.UTF8.decode(response.response.asUint8List(), allowMalformed: true));
+    var displayName = obj["DisplayName"];
+    var userNameP = obj["UserName"];
+    var created = obj["Created"];
+    var logined = obj["Logined"];
+    var state = obj["State"];
+    var point = obj["Point"];
+    var iconUr = obj["IconUrl"];
+    var publicInfo = obj["PublicInfo"];
+    var privateInfo = obj["PrivateInfo"];
   }
 }
