@@ -2,10 +2,10 @@ library firestylesite;
 
 import 'dart:html' as html;
 import 'dart:async';
-import 'package:dart.html.location/location.dart' as loc;
+import 'package:firefirestyle.html.location/location.dart' as loc;
 import 'config.dart';
-import 'package:dart.httprequest/request.dart' as req;
-import 'package:dart.httprequest/request_ver_html.dart' as req;
+import 'package:firefirestyle.httprequest/request.dart' as req;
+import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
 //
 import 'dart:convert' as conv;
 //
