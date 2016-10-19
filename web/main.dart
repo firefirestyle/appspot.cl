@@ -15,15 +15,27 @@ class PageManager {
   static String title = "title";
   static String message = "message";
   static String backurl = "backurl";
+  static String userNameId = "userName";
   static PageManager instance = new PageManager();
+
+  void jumpToUserPage(String userName) {
+    loc.Location l = new loc.Location();
+    html.window.location.assign(l.baseAddr+"/#/User?${userNameId}=${Uri.encodeComponent(userName)}");
+  }
 
   void jumpToErrorPage(String title, String message, String backurl) {
     loc.Location l = new loc.Location();
     html.window.location.assign(l.baseAddr+"/#/Error?title=${Uri.encodeComponent(title)}&message=${Uri.encodeComponent(message)}&backurl=${Uri.encodeComponent(backurl)}");
   }
+
   List<String> getErrorPageRequest(loc.Location location){
     return [location.getValueAsString(title, ""),location.getValueAsString(message, ""),location.getValueAsString(backurl, "")];
   }
+
+  List<String> getUserNamePageRequest(loc.Location location){
+    return [location.getValueAsString(userNameId, "")];
+  }
+
 }
 
 void main() {
@@ -70,6 +82,28 @@ class TwitterPage extends loc.Page {
   }
 }
 
+class UserPage extends loc.Page {
+  String rootID;
+  bool isExclusive;
+
+  UserPage({this.rootID: "fire-userpage", this.isExclusive: true}) {
+  }
+  bool updateLocation(loc.PageManager manager, loc.Location location) {
+    if (location.hash.startsWith("#/User")) {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "block";
+      rootElm.children.clear();
+      rootElm.appendHtml([
+        """<div style="color:#000000;">User</div>""",//
+    ].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    } else {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "none";
+    }
+    return true;
+  }
+}
+
 class ErrorPage extends loc.Page {
   String rootID;
   bool isExclusive;
@@ -102,6 +136,9 @@ class MePage extends loc.Page {
 
   bool updateLocation(loc.PageManager manager, loc.Location location) {
     if (location.hash.startsWith("#/Me")) {
+      if(Cookie.instance.isLogin) {
+        PageManager.instance.jumpToUserPage(Cookie.instance.userName);
+      } else {
       manager.doEvent(loc.PageManagerEvent.startLoading);
       drawHtml()
           .then((v) {
@@ -111,6 +148,7 @@ class MePage extends loc.Page {
           .whenComplete(() {
             manager.doEvent(loc.PageManagerEvent.stopLoading);
           });
+        }
     } else {
       var rootElm = html.document.body.querySelector("#${rootID}");
       rootElm.style.display = "none";
@@ -126,7 +164,8 @@ class MePage extends loc.Page {
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
-    rootElm.appendHtml(["""<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl()}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    rootElm.appendHtml([
+      """<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl()}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 }
 
@@ -173,7 +212,10 @@ class ContentBuilder extends loc.Page {
 
   bake(html.Element rootElm, {needMakeRoot: false}) {
     if (needMakeRoot) {
-      rootElm.appendHtml(["""<div id=${navigatorId} class="${navigatorId}"> </div>""", """<div id=${contentId} class="${contentId}"> </div>""", """<div id=${footerId} class="${footerId}"> </div>""",].join("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
+      rootElm.appendHtml(["""<div id=${navigatorId} class="${navigatorId}"> </div>""", //
+      """<div id=${contentId} class="${contentId}"> </div>""", //
+      """<div id=${footerId} class="${footerId}"> </div>""",].join("\r\n"), //
+      treeSanitizer: html.NodeTreeSanitizer.trusted);
     }
     //
     var navigator = rootElm.querySelector("#${navigatorId}");
@@ -192,7 +234,8 @@ class ContentBuilder extends loc.Page {
     var navigatorLeft = rootElm.querySelector("#${navigatorLeftId}");
     elms.clear();
     for (int i = 0; i < tabList.length; i++) {
-      var item = new html.Element.html("""<a href="${urlList[i]}" id="${navigatorItemId}" class="${navigatorItemId}"> ${tabList[i]} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
+      var item = new html.Element.html(
+        """<a href="${urlList[i]}" id="${navigatorItemId}" class="${navigatorItemId}"> ${tabList[i]} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
       navigatorLeft.children.add(item);
       elms[urlList[i]] = item;
       item.onClick.listen((e) {
