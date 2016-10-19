@@ -2,10 +2,12 @@ library firestylesite;
 
 import 'dart:html' as html;
 import 'dart:async';
-import 'package:firefirestyle.html.location/location.dart' as loc;
 import 'config.dart';
+
+import 'package:firefirestyle.html.location/location.dart' as loc;
 import 'package:firefirestyle.httprequest/request.dart' as req;
 import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
+import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
 //
 import 'dart:convert' as conv;
 //
@@ -79,8 +81,23 @@ class LoginNBox {
   }
 }
 
+class UserInfoProp {
+  prop.MiniProp prop;
+  UserInfoProp(this.prop) {}
+
+  String get displayName => prop.getString("DisplayName", "");
+  String get userName => prop.getString("UserName", "");
+  int get created => prop.getNum("Created", 0);
+  int get logined => prop.getNum("Logined", 0);
+  String get state => prop.getString("State", "");
+  int get point => prop.getNum("Point",0);
+  String get iconUr => prop.getString("IconUrl", "");
+  String get publicInfo => prop.getString("PublicInfo","");
+  String get privateInfo => prop.getString("PrivateInfo", "");
+}
+
 class UserBBox {
-  Future<String> requestUserInfo(String userName) async {
+  Future<UserInfoProp> requestUserInfo(String userName) async {
     var builder = new req.Html5NetBuilder();
     var requester = await builder.createRequester();
     var url = "${GetBackAddr()}/api/v1/user/get?userName=${Uri.encodeComponent(userName)}";
@@ -88,16 +105,6 @@ class UserBBox {
     if (response.status != 200) {
       throw new Exception("");
     }
-
-    var obj = conv.JSON.decode(conv.UTF8.decode(response.response.asUint8List(), allowMalformed: true));
-    var displayName = obj["DisplayName"];
-    var userNameP = obj["UserName"];
-    var created = obj["Created"];
-    var logined = obj["Logined"];
-    var state = obj["State"];
-    var point = obj["Point"];
-    var iconUr = obj["IconUrl"];
-    var publicInfo = obj["PublicInfo"];
-    var privateInfo = obj["PrivateInfo"];
+    return new UserInfoProp(new prop.MiniProp.fromByte(response.response.asUint8List(),errorIsThrow:false));
   }
 }
