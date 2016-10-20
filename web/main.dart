@@ -8,7 +8,9 @@ import 'package:firefirestyle.html.location/location.dart' as loc;
 import 'package:firefirestyle.httprequest/request.dart' as req;
 import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
 import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
+import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
 //
+import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
 //
 part 'page/twitter.dart';
@@ -16,7 +18,7 @@ part 'page/user.dart';
 part 'page/error.dart';
 part 'page/me.dart';
 part 'page/toolbar.dart';
-
+part 'parts/user.dart';
 //String configBackendAddr = "";
 
 LoginNBox GetLoginNBox() {
@@ -27,11 +29,7 @@ UserNBox GetUserNBox() {
   return new UserNBox();
 }
 
-class UserParts {
-  appendUser(html.Element containerElm) {
-    ;
-  }
-}
+
 
 class PageManager {
   static String title = "title";

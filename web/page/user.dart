@@ -24,13 +24,15 @@ class UserPage extends loc.Page {
     rootElm.style.display = "block";
     rootElm.children.clear();
     UserInfoProp prop = await GetUserNBox().requestUserInfo(location.getValueAsString("userName", "none"));
-    rootElm.appendHtml(
+    UserParts userParts = new UserParts(prop);
+    userParts.appendUser(rootElm);
+/*    rootElm.appendHtml(
         [
           """<div style="color:#000000;">${prop.displayName}</div>""", //
           """<div style="color:#000000;">${new DateTime.fromMicrosecondsSinceEpoch(prop.created~/1000)}</div>""", //
           """<div style="color:#000000;">${prop.created}</div>""", //
           """<div style="color:#000000;">${prop.userName}</div>""", //
         ].join(),
-        treeSanitizer: html.NodeTreeSanitizer.trusted);
+        treeSanitizer: html.NodeTreeSanitizer.trusted);*/
   }
 }
