@@ -9,7 +9,12 @@ class MePage extends loc.Page {
   bool updateLocation(loc.PageManager manager, loc.Location location) {
     if (location.hash.startsWith("#/Me")) {
       if (location.getValueAsString("act", "") == "logout") {
-        //
+        String userName = Cookie.instance.userName;
+        GetLoginNBox().logout(Cookie.instance.accessToken);
+        Cookie.instance.accessToken = "";
+        Cookie.instance.userName = "";
+        Cookie.instance.isMaster = 0;
+        PageManager.instance.jumpToUserPage(userName);
       } else if (Cookie.instance.isLogin) {
         PageManager.instance.jumpToUserPage(Cookie.instance.userName);
       } else {
