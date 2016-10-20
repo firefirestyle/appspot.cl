@@ -8,7 +8,9 @@ class MePage extends loc.Page {
 
   bool updateLocation(loc.PageManager manager, loc.Location location) {
     if (location.hash.startsWith("#/Me")) {
-      if (Cookie.instance.isLogin) {
+      if (location.getValueAsString("act", "") == "logout") {
+        //
+      } else if (Cookie.instance.isLogin) {
         PageManager.instance.jumpToUserPage(Cookie.instance.userName);
       } else {
         manager.doEvent(loc.PageManagerEvent.startLoading);

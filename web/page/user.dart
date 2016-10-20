@@ -25,7 +25,7 @@ class UserPage extends loc.Page {
     rootElm.children.clear();
     UserInfoProp prop = await GetUserNBox().requestUserInfo(location.getValueAsString("userName", "none"));
     UserParts userParts = new UserParts(prop);
-    userParts.appendUser(rootElm);
+    userParts.appendUser(rootElm, Cookie.instance);
 /*    rootElm.appendHtml(
         [
           """<div style="color:#000000;">${prop.displayName}</div>""", //
