@@ -146,3 +146,27 @@ body {
   font-weight: 900;
 /*  background-color: rgb(155,155,155);*/
 }
+
+/**
+* dialog
+**/
+.fire-dialog {
+  background: #FFF;
+  width: ${this.width};
+  position: fixed;
+  padding: 1.5em;
+  margin: 1em auto;
+  top: 0px;
+  border: 0;
+  border-top: 5px solid #69c773;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.fire-dialog-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}

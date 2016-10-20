@@ -10,23 +10,25 @@ class UserParts {
     String bgcolor = userImgBgColor(userProp.userName, (userProp.iconUr == "" ? false : true), userProp.iconUr);
     var builder = new tbuil.TextBuilder();
     var ticket = builder.child(builder.getRootTicket(), [
-      """<div class="user-pin">""", //
+      """<div id="${userProp.userName.replaceAll("=", "")}"class="user-pin">""", //
       """  <img id="user-pin-userimage-icon" class="user-pin-userimage" src="${src}" style="background-color:${bgcolor};">""", //
       """  <div class="user-pin-name">${userProp.displayName}</div>""", //
       """  <div class="user-pin-point">POINT : ${userProp.point}</div>""", //
     ], [
       """</div>""", //
     ]);
-    if (cookie.isLogin == true && cookie.userName == userProp.userName) {
-//    String backUrl = """#/Me?${nbox.NetBox.ReqPropertyName}=${Uri.encodeComponent(status.userName)}""";
-      builder.add(ticket, [
-        """  <a class="user-pin-hunt-me" href="#/Me?act=logout"> Me<br>Logout</a> """, //
-        //    """  <a class="user-pin-hunt-me" href="#/Me?act=updateName&backurl=${Uri.encodeComponent(backUrl)}"> Me<br>DName</a> """, //
-        //    """  <a class="user-pin-hunt-me" href="#/Me?act=updateImage&backurl=${Uri.encodeComponent(backUrl)}&icon=${Uri.encodeComponent("#user-pin-userimage-icon")}"> Me<br>DImg</a> """, //
-      ]);
-    }
-
     containerElm.appendHtml(builder.toText("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    if (cookie.isLogin == true && cookie.userName == userProp.userName) {
+      var userPin = containerElm.querySelector("#${userProp.userName.replaceAll("=", "")}");
+      var logout = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>Logout</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
+      var image = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>DImg</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
+
+      userPin.children.add(logout);
+      userPin.children.add(image);
+      logout.onClick.listen((e) {
+        html.window.location.assign("#/Me?act=logout");
+      });
+    }
   }
 
   userImgSrc(String userName, bool haveIcon, String iconUrl) {

@@ -29,14 +29,16 @@ UserNBox GetUserNBox() {
   return new UserNBox();
 }
 
-
-
 class PageManager {
   static String title = "title";
   static String message = "message";
   static String backurl = "backurl";
   static String userNameId = "userName";
   static PageManager instance = new PageManager();
+  void jumpToMePage() {
+    loc.Location l = new loc.Location();
+    html.window.location.assign(l.baseAddr + "/#/Me");
+  }
 
   void jumpToUserPage(String userName) {
     loc.Location l = new loc.Location();
@@ -89,18 +91,18 @@ class LoginNBox {
   }
 
   Future<LogoutProp> logout(String token) async {
-      var builder = new req.Html5NetBuilder();
-      var requester = await builder.createRequester();
-      var url = "${GetBackAddr()}/api/v1/me/logout";
-      var pro = new prop.MiniProp();
-      pro.setString("token", token);
+    var builder = new req.Html5NetBuilder();
+    var requester = await builder.createRequester();
+    var url = "${GetBackAddr()}/api/v1/me/logout";
+    var pro = new prop.MiniProp();
+    pro.setString("token", token);
 
-      req.Response response = await requester.request(req.Requester.TYPE_GET, url, data:pro.toJson(errorIsThrow: false));
-      if (response.status != 200) {
-        throw new Exception("");
-      }
-      return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(),errorIsThrow:false));
+    req.Response response = await requester.request(req.Requester.TYPE_GET, url, data: pro.toJson(errorIsThrow: false));
+    if (response.status != 200) {
+      throw new Exception("");
     }
+    return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
+  }
 }
 
 class UserInfoProp {
@@ -112,9 +114,9 @@ class UserInfoProp {
   int get created => prop.getNum("Created", 0);
   int get logined => prop.getNum("Logined", 0);
   String get state => prop.getString("State", "");
-  int get point => prop.getNum("Point",0);
+  int get point => prop.getNum("Point", 0);
   String get iconUr => prop.getString("IconUrl", "");
-  String get publicInfo => prop.getString("PublicInfo","");
+  String get publicInfo => prop.getString("PublicInfo", "");
   String get privateInfo => prop.getString("PrivateInfo", "");
 }
 
@@ -127,6 +129,6 @@ class UserNBox {
     if (response.status != 200) {
       throw new Exception("");
     }
-    return new UserInfoProp(new prop.MiniProp.fromByte(response.response.asUint8List(),errorIsThrow:false));
+    return new UserInfoProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
   }
 }

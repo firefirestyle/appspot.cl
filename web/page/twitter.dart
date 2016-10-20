@@ -11,7 +11,7 @@ class TwitterPage extends loc.Page {
         Cookie.instance.accessToken = location.getValueAsString("token", "");
         Cookie.instance.userName = location.getValueAsString("userName", "");
         Cookie.instance.isMaster = location.getValueAsInt("isMaster", 0);
-        manager.assignLocation(location.baseAddr);
+        PageManager.instance.jumpToMePage();
       }
     }
     return true;
