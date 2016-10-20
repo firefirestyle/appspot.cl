@@ -1,5 +1,10 @@
+library dialog;
 import 'dart:html' as html;
 //import 'package:firefirestyle.textbuilder/textbuilder.dart' as util;
+import 'dart:async';
+
+part 'dialog_image.dart';
+part 'imageutil.dart';
 
 class Dialog {
   String name;

@@ -13,6 +13,11 @@ import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
 //
+//
+import './dialog/dialog.dart' as dialog;
+
+//
+//
 part 'page/twitter.dart';
 part 'page/user.dart';
 part 'page/error.dart';

@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:html' as html;
+part of dialog;
 
 class ImageUtil {
   static Future<html.ImageElement> loadImage(html.File imgFile) async {

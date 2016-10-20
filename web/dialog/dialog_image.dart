@@ -1,7 +1,4 @@
-import 'dart:html' as html;
-import 'imageutil.dart';
-import 'dialog.dart';
-import 'dart:async';
+part of dialog;
 
 class ImgageDialog {
   Dialog base;
