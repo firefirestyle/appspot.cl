@@ -27,7 +27,7 @@ part 'parts/user.dart';
 //String configBackendAddr = "";
 
 MeNBox GetLoginNBox() {
-  return new MeNBox();
+  return new MeNBox(new req.Html5NetBuilder());
 }
 
 UserNBox GetUserNBox() {
@@ -89,14 +89,18 @@ class LogoutProp {
 }
 
 class MeNBox {
+  req.NetBuilder builder;
   String callbackopt = "cb";
+  MeNBox (this.builder) {
+
+  }
   String makeLoginTwitterUrl() {
     var l = new loc.Location();
     return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/#/Twitter")}""";
   }
 
   Future<LogoutProp> logout(String token) async {
-    var builder = new req.Html5NetBuilder();
+
     var requester = await builder.createRequester();
     var url = "${GetBackAddr()}/api/v1/me/logout";
     var pro = new prop.MiniProp();
@@ -109,8 +113,21 @@ class MeNBox {
     return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
   }
 
-  Future<Object> updateIcon() {
-    ;
+  Future<Object> updateIcon(String src) async {
+    String url = [GetBackAddr() , //
+      """/api/v1/blob/requesturl""",//
+      """?dir=${Uri.encodeComponent("/user/"+Cookie.instance.userName)}&file=meicon"""].join("");
+    var uelPropObj = new prop.MiniProp();
+    uelPropObj.setString("token", Cookie.instance.accessToken);
+    req.Response response =
+     await (await builder.createRequester()).request(req.Requester.TYPE_POST, url,data:uelPropObj.toJson(errorIsThrow: false));
+    if(response.status != 200) {
+      throw "failed to get request token";
+    }
+    var tokenUrl = conv.UTF8.decode(response.response.asUint8List());
+    //new prop.MiniProp.fromByte(response.response.asUint8List());
+    print(""" TokenUrl = ${tokenUrl} """);
+    return null;
   }
 }
 

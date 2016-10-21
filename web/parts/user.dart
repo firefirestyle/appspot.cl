@@ -32,7 +32,7 @@ class UserParts {
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
         var imgSrc = await imgDialog.show();
-        
+        GetLoginNBox().updateIcon(imgSrc);
       });
     }
   }
