@@ -9,7 +9,7 @@ class UserParts {
     String src = userImgSrc(userProp.userName, (userProp.iconUr == "" ? false : true), userProp.iconUr);
     String bgcolor = userImgBgColor(userProp.userName, (userProp.iconUr == "" ? false : true), userProp.iconUr);
     var builder = new tbuil.TextBuilder();
-    //var ticket = 
+    //var ticket =
     builder.child(builder.getRootTicket(), [
       """<div id="${userProp.userName.replaceAll("=", "")}"class="user-pin">""", //
       """  <img id="user-pin-userimage-icon" class="user-pin-userimage" src="${src}" style="background-color:${bgcolor};">""", //
@@ -29,9 +29,10 @@ class UserParts {
       logout.onClick.listen((e) {
         html.window.location.assign("#/Me?act=logout");
       });
-      image.onClick.listen((e){
+      image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
-        imgDialog.show();
+        var imgSrc = await imgDialog.show();
+        
       });
     }
   }

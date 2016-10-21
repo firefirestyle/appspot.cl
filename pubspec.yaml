@@ -17,6 +17,8 @@ dependencies:
  firefirestyle.textbuilder:
    git:
      url: https://github.com/firefirestyle/dart.textbuilder.git
+ firefirestyle.dialog:
+   path: ../dart.dialog
  dart_to_js_script_rewriter: any
 transforms:
 - dart_to_js_script_rewriter

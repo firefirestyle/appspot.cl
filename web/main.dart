@@ -14,7 +14,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
 //
 //
-import './dialog/dialog.dart' as dialog;
+import 'package:firefirestyle.dialog/dialog.dart' as dialog;
 
 //
 //
@@ -26,8 +26,8 @@ part 'page/toolbar.dart';
 part 'parts/user.dart';
 //String configBackendAddr = "";
 
-LoginNBox GetLoginNBox() {
-  return new LoginNBox();
+MeNBox GetLoginNBox() {
+  return new MeNBox();
 }
 
 UserNBox GetUserNBox() {
@@ -88,7 +88,7 @@ class LogoutProp {
   LogoutProp(this.prop) {}
 }
 
-class LoginNBox {
+class MeNBox {
   String callbackopt = "cb";
   String makeLoginTwitterUrl() {
     var l = new loc.Location();
@@ -107,6 +107,10 @@ class LoginNBox {
       throw new Exception("");
     }
     return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
+  }
+
+  Future<Object> updateIcon() {
+    ;
   }
 }
 
