@@ -6,8 +6,8 @@ class UserParts {
     ;
   }
   appendUser(html.Element containerElm, Cookie cookie) {
-    String src = userImgSrc(userProp.userName, (userProp.iconUr == "" ? false : true), userProp.iconUr);
-    String bgcolor = userImgBgColor(userProp.userName, (userProp.iconUr == "" ? false : true), userProp.iconUr);
+    String src = userImgSrc(userProp.userName,  userProp.iconUr);
+    String bgcolor = userImgBgColor(userProp.userName,userProp.iconUr);
     var builder = new tbuil.TextBuilder();
     //var ticket =
     builder.child(builder.getRootTicket(), [
@@ -32,16 +32,20 @@ class UserParts {
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
         var imgSrc = await imgDialog.show();
-        GetLoginNBox().updateIcon(imgSrc);
+        GetLoginNBox().updateIcon(imgSrc, Cookie.instance.userName, Cookie.instance.accessToken);
       });
     }
   }
 
-  userImgSrc(String userName, bool haveIcon, String iconUrl) {
-    return "/imgs/egg.png";
+  userImgSrc(String userName, String iconUrl) {
+    if(userProp.iconUr == "" ) {
+      return "/imgs/egg.png";
+    } else {
+//      GetUserNBox().requestUserInfo(userName)
+    }
   }
 
-  userImgBgColor(String userName, bool haveIcon, String iconUrl) {
+  userImgBgColor(String userName, String iconUrl) {
     String bgcolor = "black";
     try {
       List<int> by = crypto.sha1.convert(conv.UTF8.encode(userName)).bytes;

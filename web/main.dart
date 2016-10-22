@@ -9,6 +9,7 @@ import 'package:firefirestyle.httprequest/request.dart' as req;
 import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
 import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
 import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
+import 'package:firefirestyle.cl.netbox/netbox.dart';
 //
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
@@ -27,13 +28,7 @@ part 'page/toolbar.dart';
 part 'parts/user.dart';
 //String configBackendAddr = "";
 
-MeNBox GetLoginNBox() {
-  return new MeNBox(new req.Html5NetBuilder());
-}
 
-UserNBox GetUserNBox() {
-  return new UserNBox();
-}
 
 class PageManager {
   static String title = "title";
@@ -83,7 +78,19 @@ void main() {
 }
 
 class Config {}
+//
+//
+//
+//
 
+MeNBox GetLoginNBox() {
+  return new MeNBox(new req.Html5NetBuilder(), GetBackAddr());
+}
+
+UserNBox GetUserNBox() {
+  return new UserNBox(GetBackAddr());
+}
+/*
 class LogoutProp {
   prop.MiniProp prop;
   LogoutProp(this.prop) {}
@@ -163,6 +170,7 @@ class UserInfoProp {
 }
 
 class UserNBox {
+  //
   Future<UserInfoProp> requestUserInfo(String userName) async {
     var builder = new req.Html5NetBuilder();
     var requester = await builder.createRequester();
@@ -173,4 +181,4 @@ class UserNBox {
     }
     return new UserInfoProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
   }
-}
+}*/

@@ -1,4 +1,4 @@
-name: firefirestyle
+name: firefirestyle.cl
 description: web client
 version: 0.0.1
 dependencies:
@@ -18,6 +18,8 @@ dependencies:
      url: https://github.com/firefirestyle/dart.textbuilder.git
  firefirestyle.dialog:
    path: ../dart.dialog
+ firefirestyle.cl.netbox:
+   path: ../appspot.cl.netbox
  dart_to_js_script_rewriter: any
 transforms:
 - dart_to_js_script_rewriter

@@ -1,8 +1,13 @@
 import 'package:cookie/cookie.dart' as cookie;
-
+import 'package:firefirestyle.html.location/location.dart' as loc;
 String GetBackAddr() {
   //return (new loc.Location()).baseAddr;
   return "http://localhost:8080";
+}
+
+String GetFrontAddr() {
+  return (new loc.Location()).baseAddr;
+//  return "http://localhost:8080";
 }
 
 class Cookie {

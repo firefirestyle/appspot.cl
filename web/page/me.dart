@@ -43,6 +43,7 @@ class MePage extends loc.Page {
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
-    rootElm.appendHtml(["""<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl()}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    String callbackAddr = GetFrontAddr()+"/#/Twitter";
+    rootElm.appendHtml(["""<a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl(callbackAddr)}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 }
