@@ -5,9 +5,14 @@ class UserParts {
   UserParts(this.userProp) {
     ;
   }
-  appendUser(html.Element containerElm, Cookie cookie) {
-    String src = userImgSrc(userProp.userName,  userProp.iconUr);
-    String bgcolor = userImgBgColor(userProp.userName,userProp.iconUr);
+  updateUserImage(html.Element containerElm, String src) async {
+    html.ImageElement v = containerElm.querySelector("#user-pin-userimage-icon");
+    v.src = src;
+  }
+
+  appendUser(html.Element containerElm, Cookie cookie) async {
+    String src = await userImgSrc(userProp.userName, userProp.iconUr);
+    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUr);
     var builder = new tbuil.TextBuilder();
     //var ticket =
     builder.child(builder.getRootTicket(), [
@@ -32,20 +37,30 @@ class UserParts {
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
         var imgSrc = await imgDialog.show();
-        GetLoginNBox().updateIcon(imgSrc, Cookie.instance.userName, Cookie.instance.accessToken);
+        if(imgSrc == ""){
+          return;
+        }
+        var res = await GetLoginNBox().updateIcon(
+            Cookie.instance.accessToken, //
+            Cookie.instance.userName,
+            conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), '')));
+        //
+        //
+        print(">>>> ${res.blobKey}");
+        updateUserImage(containerElm, await userImgSrc(userProp.userName,res.blobKey));
       });
     }
   }
 
-  userImgSrc(String userName, String iconUrl) {
-    if(userProp.iconUr == "" ) {
+  Future<String> userImgSrc(String userName, String iconUrl) async {
+    if (userProp.iconUr == "") {
       return "/imgs/egg.png";
     } else {
-//      GetUserNBox().requestUserInfo(userName)
+      return await GetFileNBox().getFromKey(iconUrl.replaceAll("key://", ""));
     }
   }
 
-  userImgBgColor(String userName, String iconUrl) {
+  Future<String> userImgBgColor(String userName, String iconUrl) async {
     String bgcolor = "black";
     try {
       List<int> by = crypto.sha1.convert(conv.UTF8.encode(userName)).bytes;

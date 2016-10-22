@@ -90,6 +90,11 @@ MeNBox GetLoginNBox() {
 UserNBox GetUserNBox() {
   return new UserNBox(GetBackAddr());
 }
+
+FileNBox GetFileNBox() {
+  return new FileNBox(new req.Html5NetBuilder(), GetBackAddr());
+}
+
 /*
 class LogoutProp {
   prop.MiniProp prop;
