@@ -12,6 +12,7 @@ import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
 //
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
+import 'dart:typed_data' as typed;
 //
 //
 import 'package:firefirestyle.dialog/dialog.dart' as dialog;
@@ -88,19 +89,23 @@ class LogoutProp {
   LogoutProp(this.prop) {}
 }
 
+class UploadFileProp {
+  prop.MiniProp prop;
+  UploadFileProp(this.prop) {}
+
+  String get blobKey => prop.getString("blobkey", "");
+}
+
 class MeNBox {
   req.NetBuilder builder;
   String callbackopt = "cb";
-  MeNBox (this.builder) {
-
-  }
+  MeNBox(this.builder) {}
   String makeLoginTwitterUrl() {
     var l = new loc.Location();
     return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/#/Twitter")}""";
   }
 
   Future<LogoutProp> logout(String token) async {
-
     var requester = await builder.createRequester();
     var url = "${GetBackAddr()}/api/v1/me/logout";
     var pro = new prop.MiniProp();
@@ -113,21 +118,32 @@ class MeNBox {
     return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
   }
 
-  Future<Object> updateIcon(String src) async {
-    String url = [GetBackAddr() , //
-      """/api/v1/blob/requesturl""",//
-      """?dir=${Uri.encodeComponent("/user/"+Cookie.instance.userName)}&file=meicon"""].join("");
+  Future<UploadFileProp> updateIcon(String src) async {
+    String url = [
+      GetBackAddr(), //
+      """/api/v1/blob/requesturl""", //
+      """?dir=${Uri.encodeComponent("/user/"+Cookie.instance.userName)}&file=meicon"""
+    ].join("");
+
     var uelPropObj = new prop.MiniProp();
     uelPropObj.setString("token", Cookie.instance.accessToken);
-    req.Response response =
-     await (await builder.createRequester()).request(req.Requester.TYPE_POST, url,data:uelPropObj.toJson(errorIsThrow: false));
-    if(response.status != 200) {
+    req.Response response = await (await builder.createRequester()).request(req.Requester.TYPE_POST, url, data: uelPropObj.toJson(errorIsThrow: false));
+    if (response.status != 200) {
       throw "failed to get request token";
     }
-    var tokenUrl = conv.UTF8.decode(response.response.asUint8List());
+    var responsePropObj = new prop.MiniProp.fromByte(response.response.asUint8List());
+    var tokenUrl = responsePropObj.getString("token", "");
     //new prop.MiniProp.fromByte(response.response.asUint8List());
     print(""" TokenUrl = ${tokenUrl} """);
-    return null;
+    req.Multipart multipartObj = new req.Multipart();
+    var responseFromUploaded = await multipartObj.post(await builder.createRequester(), tokenUrl, [
+      new req.MultipartItem.fromBase64("file", "blob", "image/png", src.replaceFirst(new RegExp(".*,"), '')) //
+    ]);
+    if (responseFromUploaded.status != 200) {
+      throw "failed to uploaded";
+    }
+
+    return new UploadFileProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
   }
 }
 
