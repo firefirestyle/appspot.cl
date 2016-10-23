@@ -25,27 +25,12 @@ part 'page/user.dart';
 part 'page/error.dart';
 part 'page/me.dart';
 part 'page/toolbar.dart';
+part 'page/home.dart';
+
 part 'parts/user.dart';
 //String configBackendAddr = "";
 
-class Home extends loc.Page {
-  String rootID;
-  bool isExclusive;
-  Home({this.rootID: "fire-homepage", this.isExclusive: true}) {
-  }
 
-  bool updateLocation(loc.PageManager manager, loc.Location location) {
-    if (location.hash.startsWith("#/Home")) {
-      var rootElm = html.document.body.querySelector("#${rootID}");
-      rootElm.style.display = "block";
-      rootElm.appendText("hello");
-    } else {
-      var rootElm = html.document.body.querySelector("#${rootID}");
-      rootElm.style.display = "none";
-    }
-    return true;
-  }
-}
 
 class PageManager {
   static String title = "title";
@@ -100,7 +85,7 @@ MeNBox GetLoginNBox() {
 }
 
 UserNBox GetUserNBox() {
-  return new UserNBox(GetBackAddr());
+  return new UserNBox(new req.Html5NetBuilder(),GetBackAddr());
 }
 
 FileNBox GetFileNBox() {
