@@ -5,10 +5,6 @@ class UserParts {
   UserParts(this.userProp) {
     ;
   }
-  updateUserImage(html.Element containerElm, String src) async {
-    html.ImageElement v = containerElm.querySelector("#user-pin-userimage-icon");
-    v.src = src;
-  }
 
   appendUser(html.Element containerElm, Cookie cookie) async {
     String src = await userImgSrc(userProp.userName, userProp.iconUr);
@@ -16,7 +12,7 @@ class UserParts {
     var builder = new tbuil.TextBuilder();
     //var ticket =
     builder.child(builder.getRootTicket(), [
-      """<div id="${userProp.userName.replaceAll("=", "")}"class="user-pin">""", //
+      """<div id="${userProp.userName.replaceAll("=", "").replaceAll("/", "-").replaceAll("+", "-")}"class="user-pin">""", //
       """  <img id="user-pin-userimage-icon" class="user-pin-userimage" src="${src}" style="background-color:${bgcolor};">""", //
       """  <div class="user-pin-name">${userProp.displayName}</div>""", //
       """  <div class="user-pin-point">POINT : ${userProp.point}</div>""", //
@@ -24,8 +20,11 @@ class UserParts {
       """</div>""", //
     ]);
     containerElm.appendHtml(builder.toText("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    //
+    //
+    //
     if (cookie.isLogin == true && cookie.userName == userProp.userName) {
-      var userPin = containerElm.querySelector("#${userProp.userName.replaceAll("=", "")}");
+      var userPin = containerElm.querySelector("#${userProp.userName.replaceAll("=", "").replaceAll("/", "-").replaceAll("+", "-")}");
       var logout = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>Logout</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
       var image = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>DImg</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
 
@@ -37,7 +36,7 @@ class UserParts {
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
         var imgSrc = await imgDialog.show();
-        if(imgSrc == ""){
+        if (imgSrc == "") {
           return;
         }
         var res = await GetLoginNBox().updateIcon(
@@ -46,10 +45,14 @@ class UserParts {
             conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), '')));
         //
         //
-        print(">>>> ${res.blobKey}");
-        updateUserImage(containerElm, await userImgSrc(userProp.userName,res.blobKey));
+        updateUserImage(containerElm, await userImgSrc(userProp.userName, res.blobKey));
       });
     }
+  }
+
+  updateUserImage(html.Element containerElm, String src) async {
+    html.ImageElement v = containerElm.querySelector("#user-pin-userimage-icon");
+    v.src = src;
   }
 
   Future<String> userImgSrc(String userName, String iconUrl) async {

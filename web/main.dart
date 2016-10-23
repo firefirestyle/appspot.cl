@@ -28,7 +28,24 @@ part 'page/toolbar.dart';
 part 'parts/user.dart';
 //String configBackendAddr = "";
 
+class Home extends loc.Page {
+  String rootID;
+  bool isExclusive;
+  Home({this.rootID: "fire-homepage", this.isExclusive: true}) {
+  }
 
+  bool updateLocation(loc.PageManager manager, loc.Location location) {
+    if (location.hash.startsWith("#/Home")) {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "block";
+      rootElm.appendText("hello");
+    } else {
+      var rootElm = html.document.body.querySelector("#${rootID}");
+      rootElm.style.display = "none";
+    }
+    return true;
+  }
+}
 
 class PageManager {
   static String title = "title";
@@ -71,17 +88,12 @@ void main() {
   pageManager.pages.add(new TwitterPage());
   pageManager.pages.add(new ErrorPage());
   pageManager.pages.add(new UserPage());
+  pageManager.pages.add(new Home());
   pageManager.doLocation();
 
   var l = new loc.Location();
   print(">>>>> ${l.hash} : ${l.scheme} : ${l.baseAddr} : ${l.values} : ${l.baseAddr}");
 }
-
-class Config {}
-//
-//
-//
-//
 
 MeNBox GetLoginNBox() {
   return new MeNBox(new req.Html5NetBuilder(), GetBackAddr());
@@ -94,96 +106,3 @@ UserNBox GetUserNBox() {
 FileNBox GetFileNBox() {
   return new FileNBox(new req.Html5NetBuilder(), GetBackAddr());
 }
-
-/*
-class LogoutProp {
-  prop.MiniProp prop;
-  LogoutProp(this.prop) {}
-}
-
-class UploadFileProp {
-  prop.MiniProp prop;
-  UploadFileProp(this.prop) {}
-
-  String get blobKey => prop.getString("blobkey", "");
-}
-
-class MeNBox {
-  req.NetBuilder builder;
-  String callbackopt = "cb";
-  MeNBox(this.builder) {}
-  String makeLoginTwitterUrl() {
-    var l = new loc.Location();
-    return """${GetBackAddr()}/api/v1/twitter/tokenurl/redirect?${callbackopt}=${Uri.encodeComponent(l.baseAddr+"/#/Twitter")}""";
-  }
-
-  Future<LogoutProp> logout(String token) async {
-    var requester = await builder.createRequester();
-    var url = "${GetBackAddr()}/api/v1/me/logout";
-    var pro = new prop.MiniProp();
-    pro.setString("token", token);
-
-    req.Response response = await requester.request(req.Requester.TYPE_GET, url, data: pro.toJson(errorIsThrow: false));
-    if (response.status != 200) {
-      throw new Exception("");
-    }
-    return new LogoutProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
-  }
-
-  Future<UploadFileProp> updateIcon(String src) async {
-    String url = [
-      GetBackAddr(), //
-      """/api/v1/blob/requesturl""", //
-      """?dir=${Uri.encodeComponent("/user/"+Cookie.instance.userName)}&file=meicon"""
-    ].join("");
-
-    var uelPropObj = new prop.MiniProp();
-    uelPropObj.setString("token", Cookie.instance.accessToken);
-    req.Response response = await (await builder.createRequester()).request(req.Requester.TYPE_POST, url, data: uelPropObj.toJson(errorIsThrow: false));
-    if (response.status != 200) {
-      throw "failed to get request token";
-    }
-    var responsePropObj = new prop.MiniProp.fromByte(response.response.asUint8List());
-    var tokenUrl = responsePropObj.getString("token", "");
-    //new prop.MiniProp.fromByte(response.response.asUint8List());
-    print(""" TokenUrl = ${tokenUrl} """);
-    req.Multipart multipartObj = new req.Multipart();
-    var responseFromUploaded = await multipartObj.post(await builder.createRequester(), tokenUrl, [
-      new req.MultipartItem.fromBase64("file", "blob", "image/png", src.replaceFirst(new RegExp(".*,"), '')) //
-    ]);
-    if (responseFromUploaded.status != 200) {
-      throw "failed to uploaded";
-    }
-
-    return new UploadFileProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
-  }
-}
-
-class UserInfoProp {
-  prop.MiniProp prop;
-  UserInfoProp(this.prop) {}
-
-  String get displayName => prop.getString("DisplayName", "");
-  String get userName => prop.getString("UserName", "");
-  int get created => prop.getNum("Created", 0);
-  int get logined => prop.getNum("Logined", 0);
-  String get state => prop.getString("State", "");
-  int get point => prop.getNum("Point", 0);
-  String get iconUr => prop.getString("IconUrl", "");
-  String get publicInfo => prop.getString("PublicInfo", "");
-  String get privateInfo => prop.getString("PrivateInfo", "");
-}
-
-class UserNBox {
-  //
-  Future<UserInfoProp> requestUserInfo(String userName) async {
-    var builder = new req.Html5NetBuilder();
-    var requester = await builder.createRequester();
-    var url = "${GetBackAddr()}/api/v1/user/get?userName=${Uri.encodeComponent(userName)}";
-    req.Response response = await requester.request(req.Requester.TYPE_GET, url);
-    if (response.status != 200) {
-      throw new Exception("");
-    }
-    return new UserInfoProp(new prop.MiniProp.fromByte(response.response.asUint8List(), errorIsThrow: false));
-  }
-}*/
