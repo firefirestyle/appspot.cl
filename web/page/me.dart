@@ -15,6 +15,12 @@ class MePage extends loc.Page {
         Cookie.instance.userName = "";
         Cookie.instance.isMaster = 0;
         PageManager.instance.jumpToUserPage(userName);
+        if (Cookie.instance.isLogin) {
+          toolBarObj.addRightItem(new ToolbarItem("NEW", "#/New"));
+        } else {
+          toolBarObj.addRightItem(new ToolbarItem("(-_-)", ""));
+        }
+        toolBarObj.updateRight();
       } else if (Cookie.instance.isLogin) {
         PageManager.instance.jumpToUserPage(Cookie.instance.userName);
       } else {

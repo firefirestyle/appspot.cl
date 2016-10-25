@@ -68,14 +68,20 @@ class PageManager {
   }
 }
 
-Toolbar toolBarObj = new Toolbar();
+Toolbar toolBarObj = new Toolbar(null);
 
 void main() {
   print("hello client");
-  toolBarObj = new Toolbar()..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
-  toolBarObj.bake(html.document.body);
-  toolBarObj.bake(html.document.body);
-  toolBarObj.bake(html.document.body);
+  toolBarObj = new Toolbar(null)..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
+  if (Cookie.instance.isLogin) {
+    toolBarObj.addRightItem(new ToolbarItem("NEW", "#/New"));
+  } else {
+    toolBarObj.addRightItem(new ToolbarItem("(-_-)", ""));
+  }
+
+  toolBarObj.bake();
+  toolBarObj.bake();
+  toolBarObj.bake();
   //
   //
   loc.PageManager pageManager = new loc.PageManager();

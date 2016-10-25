@@ -18,8 +18,8 @@ class Toolbar extends loc.Page {
   ToolbarItem rightItem = new ToolbarItem("(-_-)", "");
   Map<String, html.Element> elms = {};
 
-
-  Toolbar() {
+  String rootId;
+  Toolbar(this.rootId) {
     html.window.onHashChange.listen((html.Event ev) {
       onHashChange();
     });
@@ -50,7 +50,11 @@ class Toolbar extends loc.Page {
     //  var e = elm[html.window.location.hash];
   }
 
-  bakeContainer(html.Element rootElm, {needMakeRoot: false}) {
+  bakeContainer({needMakeRoot: false}) {
+    html.Element rootElm = html.document.body;
+    if (rootId != null){
+      rootElm = html.document.body.querySelector("#${rootId}");
+    }
     if (needMakeRoot) {
       rootElm.children.clear();
       rootElm.appendHtml(
@@ -72,13 +76,21 @@ class Toolbar extends loc.Page {
         treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 
-  updateRight(html.Element rootElm, {needMakeRoot: false}) {
+  updateRight({needMakeRoot: false}) {
+    html.Element rootElm = html.document.body;
+    if (rootId != null){
+      rootElm = html.document.body.querySelector("#${rootId}");
+    }
     var navigatorRight = rootElm.querySelector("#${navigatorRightId}");
     navigatorRight.children.clear();
     navigatorRight.appendHtml("""<a href="${rightItem.url}" style="right:100;" class="${navigatorItemId}">${rightItem.label}</a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 
-  updateLeft(html.Element rootElm, {needMakeRoot: false}) {
+  updateLeft({needMakeRoot: false}) {
+    html.Element rootElm = html.document.body;
+    if (rootId != null){
+      rootElm = html.document.body.querySelector("#${rootId}");
+    }
     var navigatorLeft = rootElm.querySelector("#${navigatorLeftId}");
     navigatorLeft.children.clear();
     for (int i = 0; i < leftItems.length; i++) {
@@ -98,11 +110,15 @@ class Toolbar extends loc.Page {
     }
   }
 
-  bake(html.Element rootElm, {needMakeRoot: false}) {
-    bakeContainer(rootElm, needMakeRoot: needMakeRoot);
+  bake({needMakeRoot: false}) {
+    html.Element rootElm = html.document.body;
+    if (rootId != null){
+      rootElm = html.document.body.querySelector("#${rootId}");
+    }
+    bakeContainer(needMakeRoot: needMakeRoot);
     //
-    updateRight(rootElm, needMakeRoot: needMakeRoot);
+    updateRight(needMakeRoot: needMakeRoot);
     //
-    updateLeft(rootElm, needMakeRoot: needMakeRoot);
+    updateLeft(needMakeRoot: needMakeRoot);
   }
 }
