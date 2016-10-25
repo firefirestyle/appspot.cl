@@ -46,9 +46,12 @@ class PageManager {
     html.window.location.assign(l.baseAddr + "/#/Me");
   }
 
-  void jumpToUserPage(String userName) {
+  String getUrlUserPage(String userName) {
     loc.Location l = new loc.Location();
-    html.window.location.assign(l.baseAddr + "/#/User?${userNameId}=${Uri.encodeComponent(userName)}");
+    return l.baseAddr + "/#/User?${userNameId}=${Uri.encodeComponent(userName)}";
+  }
+  void jumpToUserPage(String userName) {
+    html.window.location.assign(getUrlUserPage(userName));
   }
 
   void jumpToErrorPage(String title, String message, String backurl) {

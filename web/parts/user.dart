@@ -2,14 +2,37 @@ part of firestylesite;
 
 class UserParts {
   UserInfoProp userProp;
-  UserParts(this.userProp) {
-    ;
-  }
+  UserParts(this.userProp) {}
 
-  appendUser(html.Element containerElm, Cookie cookie) async {
+  //
+  //
+  Future<html.Element> createShortUserInfoTo( Cookie cookie) async {
     String src = await userImgSrc(userProp.userName, userProp.iconUr);
     String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUr);
-    var userName = "id"+userProp.userName;
+
+    var userName = userProp.userName;
+    var builder = new tbuil.TextBuilder();
+    PageManager page = new PageManager();
+    print("""========  ${userName} ========""");
+    var url = page.getUrlUserPage(userName);
+    builder.add(builder.getRootTicket(), [
+      """<div class="hunter-pin">""",
+      """  <a class="hunter-anchor" href="${url}">""",
+      """    <img class="hunter-pin-image" src="${src}" style="background-color:${bgcolor};">""", //
+      """    <div class="target-pin-title" style="border:${bgcolor} solid 2px;"> ${userProp.displayName} </div>""",
+      """    <div class="target-pin-info">point: ${userProp.point}  </div>""",
+      """  </a>""",
+      """</div>"""
+    ]);
+    return new html.Element.html(builder.toText("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
+  }
+
+  //
+  //
+  appendUserInfoTo(html.Element containerElm, Cookie cookie) async {
+    String src = await userImgSrc(userProp.userName, userProp.iconUr);
+    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUr);
+    var userName = "id" + userProp.userName;
     var builder = new tbuil.TextBuilder();
     //var ticket =
     builder.child(builder.getRootTicket(), [
@@ -24,7 +47,7 @@ class UserParts {
     //
     //
     //
-      print("LOGIN CHECLK ${cookie.userName} == ${userProp.userName}");
+    print("LOGIN CHECLK ${cookie.userName} == ${userProp.userName}");
     if (cookie.isLogin == true && cookie.userName == userProp.userName.replaceFirst(new RegExp("::sign::.*"), "")) {
       print("LOGIN OK");
       var userPin = containerElm.querySelector("#${userName}");

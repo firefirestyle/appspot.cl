@@ -14,18 +14,22 @@ class Home extends loc.Page {
       rootElm.appendHtml("""<div id="fire-listcontainer" style="width:100%;height:auto;min-height:100px;"></div>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
       GetUserNBox().findUser("").then((UserKeyListProp prop) async {
         for(String key in prop.keys) {
+          for(int i=0;i<3;i++) {
           UserInfoProp userInfo = await GetUserNBox().getUserInfoFromKey(key);
+          print(">>>>>>>>>>>>>>>> ${userInfo.userName}");
+          UserParts userParts = new UserParts(userInfo);
+          var elc = await userParts.createShortUserInfoTo(Cookie.instance);
           var el = new html.Element.html(
               [
-                //"""<div style="color:black;width:${w}px;height:${h}px;border: 5px; border-style: dashed double;border-color: red;">x${i}""",
-                """<div style="color:black;border: 5px; border-style: dashed double;border-color: red;width:100px;height:auto;">""",
-                """  <img id="user-pin-userimage-icon" class="user-pin-userimage" src="imgs/egg.png"  style="color:black;width:100px;">""", //
-                """  <div>${userInfo.displayName}</div>""",
-                """  <div>${userInfo.publicInfo}</div>""",
+//                """<div style="color:black;border: 5px; border-style: dashed double;border-color: red;width:100px;height:auto;">""",
+                """<div style="width:100px;height:auto;" class="target-pin">""",
                 """</div>"""
               ].join(),
               treeSanitizer: html.NodeTreeSanitizer.trusted);
-              await listView.add(el);
+              rootElm.children.add(elc);
+          el.children.add(elc);
+          await listView.add(el);
+        }
         }
         /*
         var rand = new math.Random(1000);
