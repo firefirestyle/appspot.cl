@@ -23,7 +23,7 @@ class UserPage extends loc.Page {
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
-    UserInfoProp prop = await GetUserNBox().requestUserInfo(location.getValueAsString("userName", "none"));
+    UserInfoProp prop = await GetUserNBox().getUserInfo(location.getValueAsString("userName", "none"));
     UserParts userParts = new UserParts(prop);
     userParts.appendUser(rootElm, Cookie.instance);
   }

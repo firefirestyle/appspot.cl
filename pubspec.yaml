@@ -20,6 +20,8 @@ dependencies:
    path: ../dart.dialog
  firefirestyle.cl.netbox:
    path: ../appspot.cl.netbox
+ firefirestyle.dynamicblock:
+   path: ../dart.dynamicblock
  dart_to_js_script_rewriter: any
 transforms:
 - dart_to_js_script_rewriter

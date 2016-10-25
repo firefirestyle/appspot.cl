@@ -10,10 +10,13 @@ import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
 import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
 import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
 import 'package:firefirestyle.cl.netbox/netbox.dart';
+import 'package:firefirestyle.dynamicblock/dynablock.dart' as dynablock;
+import 'package:firefirestyle.dynamicblock/dynablock_html.dart' as dynablock;
 //
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert' as conv;
 import 'dart:typed_data' as typed;
+import 'dart:math' as math;
 //
 //
 import 'package:firefirestyle.dialog/dialog.dart' as dialog;
