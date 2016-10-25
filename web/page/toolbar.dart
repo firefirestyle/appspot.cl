@@ -50,7 +50,7 @@ class Toolbar extends loc.Page {
     //  var e = elm[html.window.location.hash];
   }
 
-  bake(html.Element rootElm, {needMakeRoot: false}) {
+  bakeContainer(html.Element rootElm, {needMakeRoot: false}) {
     if (needMakeRoot) {
       rootElm.appendHtml(["""<div id=${navigatorId} class="${navigatorId}"> </div>""", //
       """<div id=${contentId} class="${contentId}"> </div>""", //
@@ -59,18 +59,21 @@ class Toolbar extends loc.Page {
     }
     //
     var navigator = rootElm.querySelector("#${navigatorId}");
+    navigator.children.clear();
     navigator.appendHtml(
         [
           """<div id=${navigatorLeftId} class="${navigatorLeftId}"> </div>""",
           """<div id=${navigatorRightId} class="${navigatorRightId}"> </div>""", //
         ].join("\r\n"),
         treeSanitizer: html.NodeTreeSanitizer.trusted);
-    //
-    //
+  }
+
+  updateRight(html.Element rootElm, {needMakeRoot: false}) {
     var navigatorRight = rootElm.querySelector("#${navigatorRightId}");
     navigatorRight.appendHtml("""<div style="right:100;" class="${navigatorItemId}">(- -)</div>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
+  }
 
-    //
+  updateLeft(html.Element rootElm, {needMakeRoot: false}) {
     var navigatorLeft = rootElm.querySelector("#${navigatorLeftId}");
     elms.clear();
     for (int i = 0; i < tabList.length; i++) {
@@ -89,5 +92,13 @@ class Toolbar extends loc.Page {
         }
       });
     }
+  }
+
+  bake(html.Element rootElm, {needMakeRoot: false}) {
+    bakeContainer(rootElm,needMakeRoot: needMakeRoot);
+    //
+    updateRight(rootElm,needMakeRoot: needMakeRoot);
+    //
+        updateLeft(rootElm,needMakeRoot: needMakeRoot);
   }
 }
