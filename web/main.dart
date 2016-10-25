@@ -30,6 +30,7 @@ part 'page/error.dart';
 part 'page/me.dart';
 part 'page/toolbar.dart';
 part 'page/home.dart';
+part 'page/new.dart';
 
 part 'parts/user.dart';
 
@@ -55,6 +56,7 @@ void main() {
   pageManager.pages.add(new ErrorPage());
   pageManager.pages.add(new UserPage());
   pageManager.pages.add(new Home());
+  pageManager.pages.add(new NewPage());
   pageManager.doLocation();
 
   var l = new loc.Location();
