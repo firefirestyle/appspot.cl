@@ -3,9 +3,7 @@ part of firestylesite;
 class ToolbarItem {
   String url;
   String label;
-  ToolbarItem(this.label, this.url) {
-
-  }
+  ToolbarItem(this.label, this.url) {}
 }
 
 class Toolbar extends loc.Page {
@@ -16,8 +14,10 @@ class Toolbar extends loc.Page {
   String footerId = "fire-footer";
   String navigatorItemId = "fire-naviitem";
 
-  List<ToolbarItem> tabList = [];
+  List<ToolbarItem> leftItems = [];
+  ToolbarItem rightItem = new ToolbarItem("(-_-)", "");
   Map<String, html.Element> elms = {};
+
 
   Toolbar() {
     html.window.onHashChange.listen((html.Event ev) {
@@ -26,11 +26,11 @@ class Toolbar extends loc.Page {
   }
 
   void addLeftItem(ToolbarItem item) {
-    tabList.add(item);
+    leftItems.add(item);
   }
 
-  void addRightItem(String label, String url) {
-
+  void addRightItem(ToolbarItem item) {
+      rightItem = item;
   }
   bool updateEvent(loc.PageManager manager, loc.PageManagerEvent event) {
     if (event == loc.PageManagerEvent.startLoading) {
@@ -52,10 +52,14 @@ class Toolbar extends loc.Page {
 
   bakeContainer(html.Element rootElm, {needMakeRoot: false}) {
     if (needMakeRoot) {
-      rootElm.appendHtml(["""<div id=${navigatorId} class="${navigatorId}"> </div>""", //
-      """<div id=${contentId} class="${contentId}"> </div>""", //
-      """<div id=${footerId} class="${footerId}"> </div>""",].join("\r\n"), //
-      treeSanitizer: html.NodeTreeSanitizer.trusted);
+      rootElm.children.clear();
+      rootElm.appendHtml(
+          [
+            """<div id=${navigatorId} class="${navigatorId}"> </div>""", //
+            """<div id=${contentId} class="${contentId}"> </div>""", //
+            """<div id=${footerId} class="${footerId}"> </div>""",
+          ].join("\r\n"), //
+          treeSanitizer: html.NodeTreeSanitizer.trusted);
     }
     //
     var navigator = rootElm.querySelector("#${navigatorId}");
@@ -70,17 +74,17 @@ class Toolbar extends loc.Page {
 
   updateRight(html.Element rootElm, {needMakeRoot: false}) {
     var navigatorRight = rootElm.querySelector("#${navigatorRightId}");
-    navigatorRight.appendHtml("""<div style="right:100;" class="${navigatorItemId}">(- -)</div>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
+    navigatorRight.children.clear();
+    navigatorRight.appendHtml("""<a href="${rightItem.url}" style="right:100;" class="${navigatorItemId}">${rightItem.label}</a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
   }
 
   updateLeft(html.Element rootElm, {needMakeRoot: false}) {
     var navigatorLeft = rootElm.querySelector("#${navigatorLeftId}");
-    elms.clear();
-    for (int i = 0; i < tabList.length; i++) {
-      var item = new html.Element.html(
-        """<a href="${tabList[i].url}" id="${navigatorItemId}" class="${navigatorItemId}"> ${tabList[i].label} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
+    navigatorLeft.children.clear();
+    for (int i = 0; i < leftItems.length; i++) {
+      var item = new html.Element.html("""<a href="${leftItems[i].url}" id="${navigatorItemId}" class="${navigatorItemId}"> ${leftItems[i].label} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
       navigatorLeft.children.add(item);
-      elms[tabList[i].url] = item;
+      elms[leftItems[i].url] = item;
       item.onClick.listen((e) {
         for (var ee in elms.values) {
           ee.classes.clear();
@@ -95,10 +99,10 @@ class Toolbar extends loc.Page {
   }
 
   bake(html.Element rootElm, {needMakeRoot: false}) {
-    bakeContainer(rootElm,needMakeRoot: needMakeRoot);
+    bakeContainer(rootElm, needMakeRoot: needMakeRoot);
     //
-    updateRight(rootElm,needMakeRoot: needMakeRoot);
+    updateRight(rootElm, needMakeRoot: needMakeRoot);
     //
-        updateLeft(rootElm,needMakeRoot: needMakeRoot);
+    updateLeft(rootElm, needMakeRoot: needMakeRoot);
   }
 }

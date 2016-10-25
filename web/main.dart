@@ -68,12 +68,14 @@ class PageManager {
   }
 }
 
+Toolbar toolBarObj = new Toolbar();
+
 void main() {
   print("hello client");
-  Toolbar c = new Toolbar()..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
-  c.bake(html.document.body);
-  c.bake(html.document.body);
-  c.bake(html.document.body);
+  toolBarObj = new Toolbar()..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
+  toolBarObj.bake(html.document.body);
+  toolBarObj.bake(html.document.body);
+  toolBarObj.bake(html.document.body);
   //
   //
   loc.PageManager pageManager = new loc.PageManager();
@@ -86,6 +88,10 @@ void main() {
 
   var l = new loc.Location();
   print(">>>>> ${l.hash} : ${l.scheme} : ${l.baseAddr} : ${l.values} : ${l.baseAddr}");
+}
+
+Toolbar GetToolbar() {
+  return toolBarObj;
 }
 
 MeNBox GetLoginNBox() {
