@@ -70,7 +70,7 @@ class PageManager {
 
 void main() {
   print("hello client");
-  ContentBuilder c = new ContentBuilder()..addItem("ME", "#/Me")..addItem("Home", "#/Home");
+  Toolbar c = new Toolbar()..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
   c.bake(html.document.body);
   //
   //

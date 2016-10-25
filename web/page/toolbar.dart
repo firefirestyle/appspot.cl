@@ -1,6 +1,14 @@
 part of firestylesite;
 
-class ContentBuilder extends loc.Page {
+class ToolbarItem {
+  String url;
+  String label;
+  ToolbarItem(this.label, this.url) {
+
+  }
+}
+
+class Toolbar extends loc.Page {
   String navigatorId = "fire-navigation";
   String navigatorRightId = "fire-navigation-right";
   String navigatorLeftId = "fire-navigation-left";
@@ -8,21 +16,22 @@ class ContentBuilder extends loc.Page {
   String footerId = "fire-footer";
   String navigatorItemId = "fire-naviitem";
 
-  List<String> tabList = [];
-  List<String> urlList = [];
+  List<ToolbarItem> tabList = [];
   Map<String, html.Element> elms = {};
 
-  ContentBuilder() {
+  Toolbar() {
     html.window.onHashChange.listen((html.Event ev) {
       onHashChange();
     });
   }
 
-  void addItem(String label, String url) {
-    tabList.add(label);
-    urlList.add(url);
+  void addLeftItem(ToolbarItem item) {
+    tabList.add(item);
   }
 
+  void addRightItem(String label, String url) {
+
+  }
   bool updateEvent(loc.PageManager manager, loc.PageManagerEvent event) {
     if (event == loc.PageManagerEvent.startLoading) {
       for (var key in elms.keys) {
@@ -66,9 +75,9 @@ class ContentBuilder extends loc.Page {
     elms.clear();
     for (int i = 0; i < tabList.length; i++) {
       var item = new html.Element.html(
-        """<a href="${urlList[i]}" id="${navigatorItemId}" class="${navigatorItemId}"> ${tabList[i]} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
+        """<a href="${tabList[i].url}" id="${navigatorItemId}" class="${navigatorItemId}"> ${tabList[i].label} </a>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
       navigatorLeft.children.add(item);
-      elms[urlList[i]] = item;
+      elms[tabList[i].url] = item;
       item.onClick.listen((e) {
         for (var ee in elms.values) {
           ee.classes.clear();

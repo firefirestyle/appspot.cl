@@ -11,10 +11,11 @@ class Home extends loc.Page {
       var listView = new dynablock.DynaHtmlView();
       var rootElm = html.document.body.querySelector("#${rootID}");
       rootElm.style.display = "block";
+      rootElm.children.clear();
       rootElm.appendHtml("""<div id="fire-listcontainer" style="width:100%;height:auto;min-height:100px;"></div>""", treeSanitizer: html.NodeTreeSanitizer.trusted);
       GetUserNBox().findUser("").then((UserKeyListProp prop) async {
         for(String key in prop.keys) {
-          for(int i=0;i<3;i++) {
+//          for(int i=0;i<3;i++) {
           UserInfoProp userInfo = await GetUserNBox().getUserInfoFromKey(key);
           print(">>>>>>>>>>>>>>>> ${userInfo.userName}");
           UserParts userParts = new UserParts(userInfo);
@@ -29,7 +30,7 @@ class Home extends loc.Page {
               rootElm.children.add(elc);
           el.children.add(elc);
           await listView.add(el);
-        }
+      //  }
         }
         /*
         var rand = new math.Random(1000);
