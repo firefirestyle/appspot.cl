@@ -17,6 +17,11 @@ class PageManager {
     loc.Location l = new loc.Location();
     return l.baseAddr + "/#/User?${userNameId}=${Uri.encodeComponent(userName)}";
   }
+
+  String getUrlArtPage(String articleId, String sign) {
+    loc.Location l = new loc.Location();
+    return l.baseAddr + "/#/Art?articleId=${Uri.encodeComponent(articleId)}&sign=${Uri.encodeComponent(sign)}";
+  }
   void jumpToUserPage(String userName) {
     html.window.location.assign(getUrlUserPage(userName));
   }

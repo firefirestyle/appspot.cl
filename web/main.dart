@@ -33,6 +33,7 @@ part 'page/home.dart';
 part 'page/new.dart';
 
 part 'parts/user.dart';
+part 'parts/article.dart';
 
 Toolbar toolBarObj = new Toolbar(null);
 
