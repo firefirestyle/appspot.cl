@@ -28,7 +28,7 @@ class Home extends loc.Page {
       GetArtNBox().findArticle("").then((ArtKeyListProp prop) async {
         for (String key in prop.keys) {
           print(">>> art -> ${key}");
-          ArticleParts artParts = new ArticleParts(await GetArtNBox().getArt(key));
+          ArticleParts artParts = new ArticleParts(await GetArtNBox().getArtFromStringId(key));
           var elc = await artParts.createShortArtInfoTo();
           var el = new html.Element.html(["""<div style="width:100px;height:auto;" class="target-pin">""", """</div>"""].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
           rootElm.children.add(elc);
