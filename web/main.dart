@@ -78,3 +78,7 @@ UserNBox GetUserNBox() {
 FileNBox GetFileNBox() {
   return new FileNBox(new req.Html5NetBuilder(), GetBackAddr());
 }
+
+ArtNBox GetArtNBox() {
+  return new ArtNBox(new req.Html5NetBuilder(), GetBackAddr());
+}
