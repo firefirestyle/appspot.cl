@@ -47,7 +47,7 @@ class ArticleParts {
     if (cookie.isLogin == true && cookie.userName == artProp.userName.replaceFirst(new RegExp("::sign::.*"), "")) {
       print("LOGIN OK");
       var userPin = containerElm.querySelector("#${userName}");
-      var image = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>DImg</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
+      var image = new html.Element.html("""  <button class="user-pin-hunt-me"> Icon</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
       var setting = new html.Element.html("""  <button class="user-pin-hunt-me"> Setting</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
 
       userPin.children.add(setting);
@@ -61,6 +61,8 @@ class ArticleParts {
         if (imgSrc == "") {
           return;
         }
+        var data = conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), ''));
+        GetArtNBox().updateFile(Cookie.instance.accessToken, artProp.articleId, "", "icon", new typed.Uint8List.fromList(data));
         /*
         var res = await GetLoginNBox().updateIcon(
             Cookie.instance.accessToken, //

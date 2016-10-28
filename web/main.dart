@@ -36,6 +36,7 @@ part 'page/art.dart';
 part 'page/art_setting.dart';
 part 'parts/user.dart';
 part 'parts/article.dart';
+part 'parts/tagelement.dart';
 
 Toolbar toolBarObj = new Toolbar(null);
 

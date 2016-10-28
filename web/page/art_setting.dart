@@ -30,13 +30,24 @@ class ArtSettingPage extends loc.Page {
         mode: ArtNBox.ModeQuery);
     rootElm.appendHtml([
       """<div style="color:black;">Title</div>""",
-      """<input value="${prop.title}" style="width:100%;">""", //
+      """<input id="title" value="${prop.title}" style="width:100%;">""", //
       """<div style="color:black;">Info</div>""",
-      """<textarea value="${prop.cont}" style="width:100%;height:250px;"></textarea>""", //
+      """<textarea id="cont" value="${prop.cont}" style="width:100%;height:250px;"></textarea>""", //
       """<div style="color:black;">Tag</div>""",
-      """<input value="${prop.tag}" style="width:100%;">""", //
-      """<button>Update</button>""", //      
+      """<div id="tagCont" style="width:100%;"></div>""", //
+      """<button id="btn">Update</button>""", //
       """"""
     ].join("\r\n"), treeSanitizer: html.NodeTreeSanitizer.trusted);
+    html.InputElement titleElm = rootElm.querySelector("#title");
+    html.TextAreaElement contElm = rootElm.querySelector("#cont");
+    html.ButtonElement updateElm = rootElm.querySelector("#btn");
+    {
+    html.DivElement tagContElm = rootElm.querySelector("#tagCont");
+    TagElement tagElm = new TagElement(["a","b"]);
+    tagContElm.children.add(tagElm.contElm);
+  }
+    updateElm.onClick.listen((e){
+      GetArtNBox().updateArt(location.getValueAsString("articleId", ""), title:"title", cont:"cont");
+    });
   }
 }
