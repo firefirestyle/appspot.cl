@@ -33,7 +33,7 @@ class ArtSettingPage extends loc.Page {
           """<div style="color:black;">Title</div>""",
           """<input id="title" value="${prop.title}" style="width:100%;">""", //
           """<div style="color:black;">Info</div>""",
-          """<textarea id="cont" value="${prop.cont}" style="width:100%;height:250px;"></textarea>""", //
+          """<textarea id="cont" value="${prop.cont}" style="width:100%;height:250px;">${prop.cont}</textarea>""", //
           """<div style="color:black;">Tag</div>""",
           """<div id="tagCont" style="width:100%;"></div>""", //
           """<button id="btn">Update</button>""", //
