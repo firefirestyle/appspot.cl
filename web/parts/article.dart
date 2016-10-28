@@ -47,13 +47,13 @@ class ArticleParts {
     if (cookie.isLogin == true && cookie.userName == artProp.userName.replaceFirst(new RegExp("::sign::.*"), "")) {
       print("LOGIN OK");
       var userPin = containerElm.querySelector("#${userName}");
-      var logout = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>Logout</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
       var image = new html.Element.html("""  <button class="user-pin-hunt-me"> Me<br>DImg</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
+      var setting = new html.Element.html("""  <button class="user-pin-hunt-me"> Setting</button> """, treeSanitizer: html.NodeTreeSanitizer.trusted);
 
-      userPin.children.add(logout);
+      userPin.children.add(setting);
       userPin.children.add(image);
-      logout.onClick.listen((e) {
-        html.window.location.assign("#/Me?act=logout");
+      setting.onClick.listen((e) {
+        html.window.location.assign("#/ArtSetting");
       });
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();
@@ -61,6 +61,7 @@ class ArticleParts {
         if (imgSrc == "") {
           return;
         }
+        /*
         var res = await GetLoginNBox().updateIcon(
             Cookie.instance.accessToken, //
             Cookie.instance.userName,
@@ -68,6 +69,7 @@ class ArticleParts {
         //
         //
         updateUserImage(containerElm, await artImgSrc(artProp.userName, res.blobKey));
+        */
       });
     }
   }

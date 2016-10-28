@@ -9,17 +9,17 @@ class PageManager {
   static String userNameId = "userName";
   static PageManager instance = new PageManager();
   void jumpToMePage() {
-    loc.Location l = new loc.Location();
+    loc.Location l = new loc.HtmlLocation();
     html.window.location.assign(l.baseAddr + "/#/Me");
   }
 
   String getUrlUserPage(String userName) {
-    loc.Location l = new loc.Location();
+    loc.Location l = new loc.HtmlLocation();
     return l.baseAddr + "/#/User?${userNameId}=${Uri.encodeComponent(userName)}";
   }
 
   String getUrlArtPage(String articleId, String sign) {
-    loc.Location l = new loc.Location();
+    loc.Location l = new loc.HtmlLocation();
     return l.baseAddr + "/#/Art?articleId=${Uri.encodeComponent(articleId)}&sign=${Uri.encodeComponent(sign)}";
   }
   void jumpToUserPage(String userName) {
@@ -27,7 +27,7 @@ class PageManager {
   }
 
   void jumpToErrorPage(String title, String message, String backurl) {
-    loc.Location l = new loc.Location();
+    loc.Location l = new loc.HtmlLocation();
     html.window.location.assign(l.baseAddr + "/#/Error?title=${Uri.encodeComponent(title)}&message=${Uri.encodeComponent(message)}&backurl=${Uri.encodeComponent(backurl)}");
   }
 

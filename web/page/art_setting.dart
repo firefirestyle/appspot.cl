@@ -1,14 +1,13 @@
 part of firestylesite;
 
-class ArtPage extends loc.Page {
+class ArtSettingPage extends loc.Page {
   String rootID;
   bool isExclusive;
 
-  ArtPage({this.rootID: "fire-artpage", this.isExclusive: true}) {}
+  ArtSettingPage({this.rootID: "fire-artsettingpage", this.isExclusive: true}) {}
 
   bool updateLocation(loc.PageManager manager, loc.Location location) {
-    print("""<ss> ${location.hashPath}""");
-    if (location.hashPath == "#/Art") {
+    if (location.hashPath == "#/ArtSetting") {
       var rootElm = html.document.body.querySelector("#${rootID}");
       rootElm.style.display = "block";
       update(location);

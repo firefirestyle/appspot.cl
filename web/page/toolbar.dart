@@ -26,6 +26,7 @@ class Toolbar extends loc.Page {
   }
 
   void addLeftItem(ToolbarItem item) {
+    print(">> ${item.label} : ${item.url}");
     leftItems.add(item);
   }
 

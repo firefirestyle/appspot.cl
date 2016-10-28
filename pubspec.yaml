@@ -5,9 +5,9 @@ dependencies:
  browser: any
  cookie: any
  crypto: any
- firefirestyle.html.location:
+ firefirestyle.location:
    git:
-     url: https://github.com/firefirestyle/dart.html.location.git
+     url: https://github.com/firefirestyle/dart.location.git
  firefirestyle.httprequest:
    path: ../dart.httprequest
  firefirestyle.miniprop:

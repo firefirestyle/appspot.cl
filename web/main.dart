@@ -4,7 +4,8 @@ import 'dart:html' as html;
 import 'dart:async';
 import 'config.dart';
 
-import 'package:firefirestyle.html.location/location.dart' as loc;
+import 'package:firefirestyle.location/location.dart' as loc;
+import 'package:firefirestyle.location/location_html.dart' as loc;
 import 'package:firefirestyle.httprequest/request.dart' as req;
 import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
 import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
@@ -40,7 +41,9 @@ Toolbar toolBarObj = new Toolbar(null);
 
 void main() {
   print("hello client");
-  toolBarObj = new Toolbar(null)..addLeftItem(new ToolbarItem("ME", "#/Me)"))..addLeftItem(new ToolbarItem("Home", "#/Home"));
+  toolBarObj = new Toolbar(null)//
+  ..addLeftItem(new ToolbarItem("ME", "#/Me"))//
+  ..addLeftItem(new ToolbarItem("Home", "#/Home"));
   if (Cookie.instance.isLogin) {
     toolBarObj.addRightItem(new ToolbarItem("NEW", "#/New"));
   } else {
@@ -62,7 +65,7 @@ void main() {
   pageManager.pages.add(new ArtPage());
   pageManager.doLocation();
 
-  var l = new loc.Location();
+  var l = new loc.HtmlLocation();
   print(">>>>> ${l.hash} : ${l.scheme} : ${l.baseAddr} : ${l.values} : ${l.baseAddr}");
 }
 
