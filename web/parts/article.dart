@@ -53,7 +53,7 @@ class ArticleParts {
       userPin.children.add(setting);
       userPin.children.add(image);
       setting.onClick.listen((e) {
-        html.window.location.assign("#/ArtSetting");
+        new PageManager().jumpToArtSettingPage(artProp.articleId);
       });
       image.onClick.listen((e) async {
         var imgDialog = new dialog.ImgageDialog();

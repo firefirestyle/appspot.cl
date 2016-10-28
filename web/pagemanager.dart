@@ -22,6 +22,15 @@ class PageManager {
     loc.Location l = new loc.HtmlLocation();
     return l.baseAddr + "/#/Art?articleId=${Uri.encodeComponent(articleId)}&sign=${Uri.encodeComponent(sign)}";
   }
+
+  String getUrlArtSettingPage(String articleId) {
+    loc.Location l = new loc.HtmlLocation();
+    return l.baseAddr + "/#/ArtSetting?articleId=${Uri.encodeComponent(articleId)}";
+  }
+
+  void jumpToArtSettingPage(String articleId) {
+    html.window.location.assign(getUrlArtSettingPage(articleId));
+  }
   void jumpToUserPage(String userName) {
     html.window.location.assign(getUrlUserPage(userName));
   }

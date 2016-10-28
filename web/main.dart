@@ -33,7 +33,7 @@ part 'page/toolbar.dart';
 part 'page/home.dart';
 part 'page/new.dart';
 part 'page/art.dart';
-
+part 'page/art_setting.dart';
 part 'parts/user.dart';
 part 'parts/article.dart';
 
@@ -63,6 +63,7 @@ void main() {
   pageManager.pages.add(new Home());
   pageManager.pages.add(new NewPage());
   pageManager.pages.add(new ArtPage());
+  pageManager.pages.add(new ArtSettingPage());
   pageManager.doLocation();
 
   var l = new loc.HtmlLocation();

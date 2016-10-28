@@ -46,7 +46,7 @@ class NewPage extends loc.Page {
     html.TextAreaElement newContElm = rootElm.querySelector("#new-cont");
     html.ButtonElement newButtonElm = rootElm.querySelector("#new-button");
 
-    newTitleElm.onChange.listen((e) {
+    newTitleElm.onInput.listen((e) {
       print("====> A");
       if (newTitleElm.value.length > 0 && newContElm.value.length > 0) {
         newButtonElm.disabled = false;
@@ -54,7 +54,7 @@ class NewPage extends loc.Page {
         newButtonElm.disabled = true;
       }
     });
-    newContElm.onChange.listen((e) {
+    newContElm.onInput.listen((e) {
       print("====> B");
       if (newTitleElm.value.length > 0 && newContElm.value.length > 0) {
         newButtonElm.disabled = false;

@@ -19,13 +19,14 @@ class ArtSettingPage extends loc.Page {
   }
 
   update(loc.Location location) async {
-    print("==> loc :"+location.hash);
+    print("==>d loc :"+location.hash);
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
     ArtInfoProp prop = await GetArtNBox().getArtFromArticleId(//
       location.getValueAsString("articleId", ""),
-      location.getValueAsString("sign", "")
+      location.getValueAsString("sign", ""),
+      mode:ArtNBox.ModeQuery
     );
     var artParts = new ArticleParts(prop);
     artParts.appendUserInfoTo(rootElm, Cookie.instance);
