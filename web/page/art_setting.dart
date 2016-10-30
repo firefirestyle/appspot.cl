@@ -49,7 +49,7 @@ class ArtSettingPage extends loc.Page {
       tagContElm.children.add(tagElm.contElm);
 
     updateElm.onClick.listen((e) {
-      GetArtNBox().updateArt(location.getValueAsString("articleId", ""), //
+      GetArtNBox().updateArt(Cookie.instance.accessToken,location.getValueAsString("articleId", ""), //
       title: titleElm.value, //
       cont: contElm.value,//
       tags: tagElm.tagList);

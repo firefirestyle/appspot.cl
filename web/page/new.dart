@@ -64,7 +64,7 @@ class NewPage extends loc.Page {
     });
     newButtonElm.onClick.listen((ev) {
       try {
-        GetArtNBox().newArt(Cookie.instance.userName, title: newTitleElm.value, cont: newContElm.value);
+        GetArtNBox().newArt(Cookie.instance.accessToken, title: newTitleElm.value, cont: newContElm.value);
       } catch (e) {
         String message = "";
         if (e is ErrorProp) {
