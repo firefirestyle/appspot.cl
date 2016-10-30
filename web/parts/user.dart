@@ -7,8 +7,8 @@ class UserParts {
   //
   //
   Future<html.Element> createShortUserInfoTo( Cookie cookie) async {
-    String src = await userImgSrc(userProp.userName, userProp.iconUr);
-    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUr);
+    String src = await userImgSrc(userProp.userName, userProp.iconUrl);
+    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUrl);
 
     var userName = userProp.userName;
     var builder = new tbuil.TextBuilder();
@@ -30,8 +30,8 @@ class UserParts {
   //
   //
   appendUserInfoTo(html.Element containerElm, Cookie cookie) async {
-    String src = await userImgSrc(userProp.userName, userProp.iconUr);
-    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUr);
+    String src = await userImgSrc(userProp.userName, userProp.iconUrl);
+    String bgcolor = await userImgBgColor(userProp.userName, userProp.iconUrl);
     var userName = "id" + userProp.userName;
     var builder = new tbuil.TextBuilder();
     //var ticket =
@@ -82,7 +82,7 @@ class UserParts {
   }
 
   Future<String> userImgSrc(String userName, String iconUrl) async {
-    if (userProp.iconUr == "") {
+    if (userProp.iconUrl == "") {
       return "/imgs/egg.png";
     } else {
       return await GetFileNBox().getFromKey(iconUrl.replaceAll("key://", ""));

@@ -6,8 +6,8 @@ class ArticleParts {
 
 
   Future<html.Element> createShortArtInfoTo() async {
-    String src = await artImgSrc(artProp.articleId, "");
-    String bgcolor = await artImgBgColor(artProp.articleId, "");
+    String src = await artImgSrc(artProp.articleId, artProp.iconUrl);
+    String bgcolor = await artImgBgColor(artProp.articleId, artProp.iconUrl);
 
     var builder = new tbuil.TextBuilder();
     PageManager page = new PageManager();
@@ -26,7 +26,7 @@ class ArticleParts {
   //
   //
   appendUserInfoTo(html.Element containerElm, Cookie cookie) async {
-    String src = await artImgSrc(artProp.articleId, "");
+    String src = await artImgSrc(artProp.articleId, artProp.iconUrl);
     String bgcolor = await artImgBgColor(artProp.articleId, "");
     var userName = "id" + artProp.userName;
     var builder = new tbuil.TextBuilder();
@@ -62,16 +62,9 @@ class ArticleParts {
           return;
         }
         var data = conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), ''));
-        GetArtNBox().updateFile(Cookie.instance.accessToken, artProp.articleId, "", "icon", new typed.Uint8List.fromList(data));
-        /*
-        var res = await GetLoginNBox().updateIcon(
-            Cookie.instance.accessToken, //
-            Cookie.instance.userName,
-            conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), '')));
-        //
-        //
-        updateUserImage(containerElm, await artImgSrc(artProp.userName, res.blobKey));
-        */
+        var f = await GetArtNBox().updateFile(Cookie.instance.accessToken, artProp.articleId, "", "icon", new typed.Uint8List.fromList(data));
+
+        updateUserImage(containerElm, await artImgSrc(artProp.userName, f.blobKey));
       });
     }
   }
@@ -82,11 +75,12 @@ class ArticleParts {
   }
 
   Future<String> artImgSrc(String userName, String iconUrl) async {
-//    if (artProp.iconUr == "") {
+    print("iconURL =" + iconUrl);
+    if (iconUrl == "") {
       return "/imgs/heart.png";
-//    } else {
-//      return await GetFileNBox().getFromKey(iconUrl.replaceAll("key://", ""));
-//    }
+    } else {
+      return await GetArtNBox().getFromKey(iconUrl.replaceAll("key://", ""));
+   }
   }
 
   Future<String> artImgBgColor(String userName, String iconUrl) async {
