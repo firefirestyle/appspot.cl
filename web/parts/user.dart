@@ -85,7 +85,7 @@ class UserParts {
     if (userProp.iconUrl == "") {
       return "/imgs/egg.png";
     } else {
-      return await GetFileNBox().getFromKey(iconUrl.replaceAll("key://", ""));
+      return await GetUserNBox().getUserBlobFromKey(iconUrl.replaceAll("key://", ""));
     }
   }
 
