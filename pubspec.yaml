@@ -8,8 +8,12 @@ dependencies:
  firefirestyle.location:
    git:
      url: https://github.com/firefirestyle/dart.location.git
+ firefirestyle.html.page:
+   git:
+     url: https://github.com/firefirestyle/dart.html.page.git
  firefirestyle.httprequest:
-   path: ../dart.httprequest
+   git:
+     url: https://github.com/firefirestyle/dart.httprequest.git
  firefirestyle.miniprop:
    git:
      url: https://github.com/firefirestyle/dart.miniprop.git
@@ -19,7 +23,8 @@ dependencies:
  firefirestyle.dialog:
    path: ../dart.dialog
  firefirestyle.cl.netbox:
-   path: ../appspot.cl.netbox
+   git:
+     url: https://github.com/firefirestyle/appspot.cl.netbox.git
  firefirestyle.dynamicblock:
    path: ../dart.dynamicblock
  dart_to_js_script_rewriter: any

@@ -67,7 +67,7 @@ class UserParts {
         }
         var res = await GetLoginNBox().updateIcon(
             Cookie.instance.accessToken, //
-            Cookie.instance.userName,
+//            Cookie.instance.userName,
             conv.BASE64.decode(imgSrc.replaceFirst(new RegExp(".*,"), '')));
         //
         //
@@ -85,7 +85,7 @@ class UserParts {
     if (userProp.iconUrl == "") {
       return "/imgs/egg.png";
     } else {
-      return await GetUserNBox().getUserBlobFromKey(iconUrl.replaceAll("key://", ""));
+      return await GetUserNBox().makeUserBlobFromKey(iconUrl.replaceAll("key://", ""));
     }
   }
 
