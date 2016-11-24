@@ -9,7 +9,7 @@ import 'package:firefirestyle.location/location_html.dart' as loc;
 import 'package:firefirestyle.html.page/page.dart' as loc;
 
 import 'package:firefirestyle.httprequest/request.dart' as req;
-import 'package:firefirestyle.httprequest/request_ver_html.dart' as req;
+import 'package:firefirestyle.httprequest/request_html.dart' as req;
 import 'package:firefirestyle.miniprop/miniprop.dart' as prop;
 import 'package:firefirestyle.textbuilder/textbuilder.dart' as tbuil;
 import 'package:firefirestyle.cl.netbox/netbox.dart';

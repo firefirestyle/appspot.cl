@@ -79,7 +79,7 @@ class ArticleParts {
     if (iconUrl == "") {
       return "/imgs/heart.png";
     } else {
-      return await GetArtNBox().getFromKey(iconUrl.replaceAll("key://", ""));
+      return await GetArtNBox().makeBlobUrlFromKey(iconUrl.replaceAll("key://", ""));
    }
   }
 
