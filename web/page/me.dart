@@ -51,12 +51,13 @@ class MePage extends loc.Page {
     rootElm.children.clear();
     {
       String callbackAddr = GetFrontAddr() + "/#/Twitter";
+//      String callbackAddr = "firefirestyle://"+ "/#/Twitter";
       rootElm.appendHtml(["""<br><a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginTwitterUrl(callbackAddr)}"> twitter login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
     }
-    {
-      String callbackAddr = GetFrontAddr() + "/#/Twitter";
-
-      rootElm.appendHtml(["""<br><a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginFacebookUrl(callbackAddr)}"> facebook login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
-    }
+//    {
+//      String callbackAddr = GetFrontAddr() + "/#/Twitter";
+//
+//      rootElm.appendHtml(["""<br><a class="fire-mepage-login-item" href="${GetLoginNBox().makeLoginFacebookUrl(callbackAddr)}"> facebook login </a>""",].join(), treeSanitizer: html.NodeTreeSanitizer.trusted);
+//    }
   }
 }

@@ -32,7 +32,6 @@ class NewPage extends loc.Page {
     var rootElm = html.document.body.querySelector("#${rootID}");
     rootElm.style.display = "block";
     rootElm.children.clear();
-    String callbackAddr = GetFrontAddr() + "/#/Twitter";
     rootElm.appendHtml(
         [
           """<input id="new-title" type="text" style="width:100%;" placeholder="Title"><br>""", //

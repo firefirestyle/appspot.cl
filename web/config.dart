@@ -1,13 +1,26 @@
 import 'package:cookie/cookie.dart' as cookie;
 import 'package:firefirestyle.location/location.dart' as loc;
 import 'package:firefirestyle.location/location_html.dart' as loc;
+
+//const String platform = "web";
+const String platform = "cordova";
+
 String GetBackAddr() {
   //return (new loc.Location()).baseAddr;
-  return "http://localhost:8080";
+  //return "http://localhost:8080";
+  return "https://firefirestyle.appspot.com/";
+}
+
+String GetCallback() {
+  return "firefirestyle://";
 }
 
 String GetFrontAddr() {
-  return (new loc.HtmlLocation()).baseAddr;
+  if(platform == "cordova") {
+    return "firefirestyle://";
+  } else {
+    return (new loc.HtmlLocation()).baseAddr;
+  }
 //  return "http://localhost:8080";
 }
 

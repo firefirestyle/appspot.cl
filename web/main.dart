@@ -23,7 +23,7 @@ import 'dart:math' as math;
 //
 //
 import 'package:firefirestyle.dialog/dialog.dart' as dialog;
-
+import 'dart:js' as js;
 //
 //
 part 'pagemanager.dart';
@@ -44,6 +44,17 @@ Toolbar toolBarObj = new Toolbar(null);
 
 void main() {
   print("hello client");
+  //
+  //handleOpenURL
+  js.JsObject root = js.context;
+  root["handleOpenURL"] = (String a){
+    //      String callbackAddr = GetFrontAddr() + "/#/Twitter";
+    a = a.replaceFirst("firefirestyle:///", "");
+    html.window.location.assign("file:///android_asset/www/index.html" +  a);
+    print(">>callback = ${a}");
+  };
+  //
+  //
   toolBarObj = new Toolbar(null)//
   ..addLeftItem(new ToolbarItem("ME", "#/Me"))//
   ..addLeftItem(new ToolbarItem("Home", "#/Home"));

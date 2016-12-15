@@ -2,12 +2,24 @@
 <html>
   <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!--meta http-equiv="Content-Security-Policy"
+         content="default-src * signsrestaurantandbar:;
+                  style-src * 'self' 'unsafe-inline' 'unsafe-eval';
+                  script-src * 'self' 'unsafe-inline' 'unsafe-eval';"-->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
     <link href="favicon.ico?version={{.Version}}" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="styles.css?version={{.Version}}">
+    <script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>s
+    <!--script>
+    function handleOpenURL(url) {
+      setTimeout(function() {
+        alert("received url: " + url);
+      }, 0);
+    }
+  </script-->
     <script defer src="main.dart?version={{.Version}}" type="application/dart"></script>
     <script defer src="packages/browser/dart.js?version={{.Version}}"></script>
   </head>
@@ -22,8 +34,25 @@
       <div id="fire-newpage" class="fire-content" style="display:none"></div>
       <div id="fire-artpage" class="fire-content" style="display:none"></div>
       <div id="fire-artsettingpage" class="fire-content" style="display:none"></div>
+      <!--handleOpenURL -->
+      <button onclick="window.open('firefirestyle:///asd', '_system')">Open the other app</button>
+      <button onclick="handleOpenURL('testtest')">A</button>
+      <!--script>
+      aa = function (){
+//        document.write("==!!");
+    try{
+        handleOpenURL("dd");
+      } catch(e){}
+        window.setTimeout(aa,2000);
+      };
+      aa()
+//      handleOpenURL
+      </script-->
 
     </div>
     <div id="fire-footer" class="fire-footer"></div>
+<script type="text/javascript" src="cordova.js"></script>
+<!--script type="text/javascript" src="js/index.js"></script-->
+<button onclick="window.open('firefirestyle://', '_system')">Open the other app</button>
   </body>
 </html>
